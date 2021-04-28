@@ -188,7 +188,7 @@ class Article
     {
         if (!$this->versions->contains($version)) {
             $this->versions[] = $version;
-            $version->setAsupprimer($this);
+            $version->setArticle($this);
         }
 
         return $this;
@@ -198,8 +198,8 @@ class Article
     {
         if ($this->versions->removeElement($version)) {
             // set the owning side to null (unless already changed)
-            if ($version->getAsupprimer() === $this) {
-                $version->setAsupprimer(null);
+            if ($version->getArticle() === $this) {
+                $version->setArticle(null);
             }
         }
 
