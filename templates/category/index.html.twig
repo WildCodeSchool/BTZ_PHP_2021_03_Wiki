@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories-index{% endblock %}
+
+{% block body %}
+    <h1>Categories - index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    <!-- LI methods are called with the whole category parameter -->
+                    <a href="{{ path('category_show', {'category': category.id}) }}">show</a>
+                    <a href="{{ path('category_edit', {'category': category.id}) }}">edit</a>
+                </td>
+            </tr>
+             {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('category_new') }}">Create new</a>
+{% endblock %}
