@@ -76,7 +76,7 @@ class Article
     private $versions;
 
     /**
-     * @ORM\OneToOne(targetEntity=Version::class, inversedBy="article", cascade={"persist", "remove"})
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $currentVersion;
 
@@ -272,12 +272,12 @@ class Article
         return $this;
     }
 
-    public function getCurrentVersion(): ?Version
+    public function getCurrentVersion(): ?int
     {
         return $this->currentVersion;
     }
 
-    public function setCurrentVersion(?Version $currentVersion): self
+    public function setCurrentVersion(?int $currentVersion): self
     {
         $this->currentVersion = $currentVersion;
 
