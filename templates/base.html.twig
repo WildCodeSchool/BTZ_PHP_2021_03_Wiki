@@ -13,7 +13,7 @@
 {% block header %}
 <a href="{{ path('article_index') }}"> Voir les articles</a>
     {% if app.user %}
-    {{ app.user.email }}
+    Hello, {{ app.user.firstname }} {{app.user.lastname}} !
     <a href="{{ path('app_logout') }}"> Se déconnecter</a>
 {% else %}
     <a href="{{ path('app_login') }}"> Se connecter</a>
