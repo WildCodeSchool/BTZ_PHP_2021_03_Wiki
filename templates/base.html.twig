@@ -1,20 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="{{ asset('build/images/favicon.png') }}" />
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock %}
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" type="image/png" href="{{ asset('build/images/favicon.png') }}"/>
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		{% block header %}
+			<div style="float:right">
+				<a href="{{ path('home') }}">
+					Accueil</a>
+          <a href="{{ path('category_index') }}"> Catégories (admin)</a>
+				<a href="{{ path('article_index') }}">
+					Voir les articles</a>
+				{% if app.user %}
+					Hello,
+					{{ app.user.firstname }}
+					{{app.user.lastname}}
+					!
+					<a href="{{ path('article_new') }}">Contribuer</a>
+					<a href="{{ path('app_logout') }}">
+						Se déconnecter</a>
 
-{% block body %}{% endblock %}
+				{% else %}
+					<a href="{{ path('app_login') }}">
+						Se connecter</a>
+					<a href="{{ path('app_register') }}">
+						S'enregistrer</a>
+				{% endif %}
+			</div>
+		{% endblock %}
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock %}
-</body>
+		{% block body %}{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</body>
 </html>
