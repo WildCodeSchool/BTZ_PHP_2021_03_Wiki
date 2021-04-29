@@ -26,7 +26,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/tags/new", name="tag_new", methods={"GET","POST"})
+     * @Route("/new", name="tag_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
