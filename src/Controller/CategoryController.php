@@ -48,10 +48,8 @@ class CategoryController extends AbstractController
         ]);
     }
 
-// LI - the category parameter is given to the Route 
-// will allow to retreive all articles related to 
     /**
-     * @Route("/{category}", name="category_show")
+     * @Route("/{category}", name="category_show", methods={"GET"})
      */
     public function show(Category $category): Response
     {
@@ -60,11 +58,8 @@ class CategoryController extends AbstractController
         ]);
     }
 
-
-// LI - the category parameter is given to the Route 
-// will allow to retreive all articles related to 
     /**
-     * @Route("/{category}/edit", name="category_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Category $category): Response
     {
@@ -83,10 +78,8 @@ class CategoryController extends AbstractController
         ]);
     }
 
-
-    // LI  has changed the methods to POST (initially DELETE)
     /**
-     * @Route("/{id}", name="category_delete", methods={"POST"})
+     * @Route("/{id}", name="category_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Category $category): Response
     {
