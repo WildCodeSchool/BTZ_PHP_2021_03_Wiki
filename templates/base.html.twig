@@ -10,8 +10,18 @@
     {% endblock %}
 </head>
 <body>
+{% block header %}
+<a href="{{ path('article_index') }}"> Voir les articles</a>
+    {% if app.user %}
+    Hello, {{ app.user.firstname }} {{app.user.lastname}} !
+    <a href="{{ path('app_logout') }}"> Se déconnecter</a>
+{% else %}
+    <a href="{{ path('app_login') }}"> Se connecter</a>
+     <a href="{{ path('app_register') }}"> S'enregistrer</a>
+{% endif %}
+{% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %} {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
