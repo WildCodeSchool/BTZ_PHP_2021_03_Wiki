@@ -12,6 +12,7 @@
 <body>
 {% block header %}
 <a href="{{ path('article_index') }}"> Voir les articles</a>
+<a href="{{ path('category_index') }}"> Catégories (admin)</a>
     {% if app.user %}
     Hello, {{ app.user.firstname }} {{app.user.lastname}} !
     <a href="{{ path('app_logout') }}"> Se déconnecter</a>
