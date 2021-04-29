@@ -64,7 +64,7 @@ class UserFixtures extends Fixture
         $manager->persist($admin);
 
 
-        // Sauvegarde des 2 nouveaux utilisateurs :
+        // Sauvegarde des nouveaux utilisateurs :
 
         $manager->flush();
     }
