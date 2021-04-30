@@ -28,7 +28,7 @@ class UserType extends AbstractType
                 'multiple' => true ,
                 'label' => 'Rôles' 
             ])
-            /**->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
@@ -43,8 +43,7 @@ class UserType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-            ])*/
-            ->add('password')
+            ])
             ->add('firstname')
             ->add('lastname')
             ->add('cityAgency')
