@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Version;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,10 +38,34 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $currentUser = $this->getUser();
+
+            //On hydrate l'article des données manquantes
             $article->setCreator($currentUser);
             $article->setIsPublished(false);
             $article->setIsDeleted(false);
             $article->setCreationDate(new \DateTime());
+
+            //On créé une version (la première de l'article)
+            $version = new Version();
+            $version->setArticle($article);
+            $version->setComment("Première version de l'article");
+
+            //Récupérer contenu de l'input content et le mettre dans version.content
+            $version->setContent('content');
+
+            $version->setContributor($currentUser);
+            $version->setIsValidated(false);
+            $version->setModificationDate(new \DateTime());
+
+            //Ajouter version aux versions et à current_version_id
+            $article->addVersion($version);
+
+            $entityManager->persist($article);
+            $entityManager->persist($version);
+            $entityManager->flush();
+
+            $article->setCurrentVersion($version->getId());
+
             $entityManager->persist($article);
             $entityManager->flush();
 
