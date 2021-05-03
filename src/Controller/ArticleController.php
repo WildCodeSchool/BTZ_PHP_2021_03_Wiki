@@ -72,6 +72,9 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $currentUser = $this->getUser();
+            $article->setCreator($currentUser);
+            $article->setCreationDate(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('article_index');
