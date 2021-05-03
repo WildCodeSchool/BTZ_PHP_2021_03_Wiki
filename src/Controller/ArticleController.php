@@ -50,8 +50,8 @@ class ArticleController extends AbstractController
             $version->setArticle($article);
             $version->setComment("Première version de l'article");
 
-            //Récupérer contenu de l'input content et le mettre dans version.content
-            $version->setContent('content');
+            //Récupére le contenu de l'input content et le met dans version.content
+            $version->setContent($form->get('content')->getData());
 
             $version->setContributor($currentUser);
             $version->setIsValidated(false);
