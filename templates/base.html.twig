@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		{% block header %}
-			<div style="float:right">
+			
 		  <a href="{{ path('home') }}">Accueil</a>
 		  <a href="{{ path('article_index') }}">Articles</a>
           <a href="{{ path('category_index') }}"> Catégories (admin)</a>
@@ -36,7 +36,7 @@
 					<a href="{{ path('app_register') }}">
 						S'enregistrer</a>
 				{% endif %}
-			</div>
+		
 		{% endblock %}
 
 		{% block body %}{% endblock %}
