@@ -18,6 +18,7 @@ class ArticleType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('content', TextareaType::class, ['mapped' => false])
+            //TODO image management
             ->add('picture', FileType::class, ['required' => false])
             ->add('tags', null, ['choice_label' => 'name'])
             ->add('categories', null, ['choice_label' => 'name']);
