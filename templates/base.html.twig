@@ -29,16 +29,6 @@
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('article_index') }}">Articles</a>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="{{ path('admin_dashboard') }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-									<a class="dropdown-item" href="{{ path('admin_category_index') }}">Catégories</a>
-									<a class="dropdown-item" href="{{ path('admin_tag_index') }}">Tags</a>
-									<a class="dropdown-item" href="{{ path('user_index') }}">Users</a>
-									<a class="dropdown-item" href="{{ path('version_index') }}">Versions</a>
-								</div>
-							</li>
-
 							{% if app.user %}
 								<li class="nav-item">
 									<a class="nav-link" href="{{ path('article_new') }}">Contribuer</a>
@@ -59,6 +49,9 @@
 								</li>
 
 							{% endif %}
+							<li class="nav-item">
+								<a class="nav-link" href="{{ path('admin_dashboard') }}">Admin</a>
+							</li>
 						</ul>
 					</div>
 				</div>
