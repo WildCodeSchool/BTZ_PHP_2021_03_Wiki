@@ -191,4 +191,17 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('admin_tag_index');
     }
+
+    /**
+     * @Route("dashboardpanel", name="dashboard_panel")
+     */
+    public function panel(Request $request, TagRepository $tagRepository): Response
+    {
+        $tags = $tagRepository->findAll();
+        
+        return $this->render('admin/dashboardPanel.html.twig', [
+            'tags' => $tagRepository->findAll(),
+
+        ]);
+    }
 }
