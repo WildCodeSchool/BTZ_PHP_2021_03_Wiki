@@ -5,7 +5,7 @@
 {% block body %}
 <div class="container">
 <div class="row" >
-  <div class="col-md-6">
+  <div class="col-md-4">
     <div class = "card" style="margin-top:100px;">
        <div class="card-body">
         <h5 class="card-title" style="text-align:center" >La gestion des catégories</h5>
@@ -26,7 +26,29 @@
     </div>
  </div>
 
-  <div class="col-md-6">
+  <div class="col-md-4">
+    <div class="card" style="margin-top:100px;">
+      <div class="card-body">
+        <h5 class="card-title"style="text-align:center">La gestion des users</h5>
+         <a href="{{ path('user_new') }}" class="btn btn-primary">Ajouter un user</a>
+          <ul class="list-group list-group-flush">
+         {% for user in users %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">{{ user.firstname }}
+         <span><a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+        <a style="margin-left:10px;" href="{{ path('user_delete', {'id': user.id}) }}">delete</a></span>
+      </li>
+      </ul>
+       {% else %}
+            <tr>
+                <td colspan="3">no tags found</td>
+            </tr>
+        {% endfor %}
+
+       </div>
+       </div>
+        </div>
+
+         <div class="col-md-4">
     <div class="card" style="margin-top:100px;">
       <div class="card-body">
         <h5 class="card-title"style="text-align:center">La gestion des tags</h5>
