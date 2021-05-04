@@ -5,16 +5,16 @@
 
 {% block body %}
 	<!-- Page Heading/Breadcrumbs-->
-	<h1 class="mt-4 mb-3">
-		Liste des articles
-		<small>Trié par date</small>
-	</h1>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item">
 			<a href="{{ path('home') }}">Accueil</a>
 		</li>
 		<li class="breadcrumb-item active">Articles</li>
 	</ol>
+	<h1 class="mt-4 mb-3">
+		Liste des articles
+		<small>Trié par date</small>
+	</h1>
 	<div class="row">
 		{% for article in articles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
@@ -25,9 +25,7 @@
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
 						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
-						<button class="position-absolute" style="bottom: 20px;right: 20px;">
-							<a href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
-						</button>
+						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
 					</div>
 				</div>
 			</div>

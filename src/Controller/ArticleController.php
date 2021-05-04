@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Version;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Repository\VersionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -81,10 +82,12 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}", name="article_show", methods={"GET"})
      */
-    public function show(Article $article): Response
+    public function show(Article $article, VersionRepository $versionRepository): Response
     {
+        $version = $versionRepository->find($article->getCurrentVersion());
         return $this->render('article/show.html.twig', [
             'article' => $article,
+            'version' => $version
         ]);
     }
 
