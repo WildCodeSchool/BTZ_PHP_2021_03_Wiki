@@ -9,6 +9,8 @@ use App\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,7 +31,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, MailerInterface $mailer): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -69,6 +71,19 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
+            $email = (new Email())
+
+            ->from('from@example.com')
+
+            ->to('to@example.com')
+
+            ->subject('Une nouvelle article vient d\'être publiée !')
+
+            ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
+
+
+    $mailer->send($email);
+
             return $this->redirectToRoute('article_index');
         }
 
@@ -91,7 +106,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article): Response
+    public function edit(Request $request, Article $article,MailerInterface $mailer): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -102,8 +117,21 @@ class ArticleController extends AbstractController
             $article->setCreationDate(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 
+            $email = (new Email())
+
+            ->from('from@example.com')
+
+            ->to('to@example.com')
+
+            ->subject('Une article vient d\'être modifiée !')
+
+            ->html('<p>Une article vient d\'être modifiée sur Wiki !</p>');
+
+
+             $mailer->send($email);
+
             return $this->redirectToRoute('article_index');
-        }
+         }
 
         return $this->render('article/edit.html.twig', [
             'article' => $article,
