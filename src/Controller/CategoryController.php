@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\UserRepository;
 use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +20,12 @@ class CategoryController extends AbstractController
     /**
      * @Route("/", name="category_index", methods={"GET"})
      */
-    public function index(CategoryRepository $categoryRepository,TagRepository $tagRepository): Response
+    public function index(CategoryRepository $categoryRepository,TagRepository $tagRepository, UserRepository $userRepository): Response
     {
         return $this->render('category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
-            'tags'=> $tagRepository->findAll()
+            'tags'=> $tagRepository->findAll(),
+            'users'=> $userRepository->findAll()
         ]);
     }
 
