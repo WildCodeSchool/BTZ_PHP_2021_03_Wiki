@@ -16,8 +16,8 @@
                     <ul class="list-group list-group-flush">
                         {% for tag in tags %}
                         <li style="color:black; list-style:none;">{{tag.name}}</li>
-                        <span><a href="{{ path('admin_tag_edit', {'id': tag.id}) }}">edit</a>
-                            <a style="margin-left:10px;" href="{{ path('admin_tag_delete', {'id': tag.id}) }}">delete</a></span>                        
+                        <span><a style="color:rgb(91, 7, 136)" href="{{ path('admin_tag_edit', {'id': tag.id}) }}">edit</a>
+                            <a style="margin-left:10px; color:rgb(91, 7, 136)" href="{{ path('admin_tag_delete', {'id': tag.id}) }}">delete</a></span>                        
                         {% endfor %}
                     </ul>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
