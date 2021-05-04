@@ -15,12 +15,13 @@
 	<body>
 		{% block header %}
 			
-		  <a href="{{ path('home') }}">Accueil</a>
-		  <a href="{{ path('article_index') }}">Articles</a>
-          <a href="{{ path('category_index') }}"> Catégories (admin)</a>
-		  <a href="{{ path('user_index') }}"> Users (admin)</a>
-		  <a href="{{ path('version_index') }}"> Versions (admin?)</a>
-		  <a href="{{ path('tag_index') }}"> Tagss (admin)</a>
+		<a href="{{ path('home') }}">Accueil</a>
+		<a href="{{ path('article_index') }}">Articles</a>
+		<a href="{{ path('admin_dashboard') }}">Dashboard (admin)</a>
+		<a href="{{ path('admin_category_index') }}"> Catégories (admin)</a>
+		<a href="{{ path('user_index') }}"> Users</a>
+		<a href="{{ path('version_index') }}"> Versions</a>
+		<a href="{{ path('admin_tag_index') }}"> Tags (admin)</a>
 				{% if app.user %}
 					Hello,
 					{{ app.user.firstname }}
