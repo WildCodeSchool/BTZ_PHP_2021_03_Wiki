@@ -126,12 +126,9 @@
     "egulias/email-validator": {
         "version": "2.1.23"
     },
-<<<<<<< HEAD
-=======
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
->>>>>>> 234d4a6e322e17b4a9d00f32149ce75596051cee
     "fzaninotto/faker": {
         "version": "v1.9.2"
     },
