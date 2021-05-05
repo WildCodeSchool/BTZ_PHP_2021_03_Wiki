@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TagController extends AbstractController
 {
     /**
-     * @Route("/", name="old_tag_index", methods={"GET"})
+     * @Route("/", name="tag_index", methods={"GET"})
      */
     public function index(TagRepository $tagRepository): Response
     {
@@ -46,6 +46,31 @@ class TagController extends AbstractController
             'tag' => $tag,
             'form' => $form->createView(),
         ]);
+    }
+
+/**
+     * @Route("/{tag}/show", name="tag_show_article", methods={"GET"})
+     */
+    public function showArticles(Request $request, Tag $tag): Response
+    {
+        return $this->render('tag/show.html.twig', [
+            'tag' => $tag,
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}", name="old_tag_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Tag $tag): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $tag->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($tag);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('tag_index');
     }
 
     /**
@@ -78,17 +103,5 @@ class TagController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="old_tag_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Tag $tag): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $tag->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($tag);
-            $entityManager->flush();
-        }
 
-        return $this->redirectToRoute('tag_index');
-    }
 }
