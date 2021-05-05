@@ -17,21 +17,21 @@ use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Repository\TagRepository;
 
-    /*************************** CATEGORY ROUTES *************************/
-    /**
-     * @Route("/admin/", name="admin_")
-     */
+/*************************** CATEGORY ROUTES *************************/
+/**
+ * @Route("/admin/", name="admin_")
+ */
 class AdminController extends AbstractController
 {
     /**
      * @Route("dashboard", name="dashboard")
      */
-    public function dashboard(CategoryRepository $categoryRepository,TagRepository $tagRepository, UserRepository $userRepository): Response
+    public function dashboard(CategoryRepository $categoryRepository, TagRepository $tagRepository, UserRepository $userRepository): Response
     {
         return $this->render('admin/dashboard.html.twig', [
             'categories' => $categoryRepository->findAll(),
-            'tags'=> $tagRepository->findAll(),
-            'users'=> $userRepository->findAll()
+            'tags' => $tagRepository->findAll(),
+            'users' => $userRepository->findAll()
         ]);
     }
 
@@ -103,7 +103,7 @@ class AdminController extends AbstractController
      */
     public function deleteCategory(Request $request, Category $category): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
             $entityManager->flush();
@@ -195,13 +195,14 @@ class AdminController extends AbstractController
     /**
      * @Route("dashboardpanel", name="dashboard_panel")
      */
-    public function panel(Request $request, TagRepository $tagRepository): Response
+    public function panel(Request $request, TagRepository $tagRepository, CategoryRepository $categoryRepository): Response
     {
         $tags = $tagRepository->findAll();
-        
-        return $this->render('admin/dashboardPanel.html.twig', [
-            'tags' => $tagRepository->findAll(),
+        $categories = $categoryRepository->findAll();
 
+        return $this->render('admin/dashboardPanel.html.twig', [
+            'tags' => $tags,
+            'categories' => $categories,
         ]);
     }
 }
