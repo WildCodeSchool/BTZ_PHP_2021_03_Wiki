@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index
+{% endblock %}
+
+{% block body %}
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item active">Articles</li>
+	</ol>
+	<h1 class="mt-4 mb-3">
+		Liste des articles
+		<small>Trié par date</small>
+	</h1>
+	<div class="row">
+		{% for article in articles %}
+			<div class="col-lg-4 col-sm-6 mb-4">
+				<div class="card h-100">
+					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="https://via.placeholder.com/700x400" alt="..."/></a>
+					<div class="card-body">
+						<h4 class="card-title">
+							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
+						</h4>
+						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
+						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div>
+				<h2>Il n'y a pas d'articles</td>
+			</div>
+		{% endfor %}
+	</div>
+	<!-- Pagination-->
+	<ul class="pagination justify-content-center">
+		<li class="page-item">
+			<a class="page-link" href="#" aria-label="Previous">
+				<span aria-hidden="true">«</span>
+				<span class="sr-only">Previous</span>
+			</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#!">1</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#!">2</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#!">3</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="#" aria-label="Next">
+				<span aria-hidden="true">»</span>
+				<span class="sr-only">Next</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}

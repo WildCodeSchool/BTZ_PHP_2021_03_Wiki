@@ -40,7 +40,7 @@ class AdminController extends AbstractController
      */
     public function indexCategory(CategoryRepository $categoryRepository): Response
     {
-        return $this->render('category/index.html.twig', [
+        return $this->render('admin/category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
         ]);
     }
@@ -59,10 +59,10 @@ class AdminController extends AbstractController
             $entityManager->persist($category);
             $entityManager->flush();
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('admin_category_index');
         }
 
-        return $this->render('category/new.html.twig', [
+        return $this->render('admin/category/new.html.twig', [
             'category' => $category,
             'form' => $form->createView(),
         ]);
@@ -73,7 +73,7 @@ class AdminController extends AbstractController
      */
     public function showCategory(Category $category): Response
     {
-        return $this->render('category/show.html.twig', [
+        return $this->render('admin/category/show.html.twig', [
             'category' => $category,
         ]);
     }
@@ -89,10 +89,10 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirectToRoute('admin_category_index');
         }
 
-        return $this->render('category/edit.html.twig', [
+        return $this->render('admin/category/edit.html.twig', [
             'category' => $category,
             'form' => $form->createView(),
         ]);
@@ -109,7 +109,7 @@ class AdminController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('category_index');
+        return $this->redirectToRoute('admin_category_index');
     }
 
 
@@ -120,7 +120,7 @@ class AdminController extends AbstractController
      */
     public function indexTag(TagRepository $tagRepository): Response
     {
-        return $this->render('tag/index.html.twig', [
+        return $this->render('admin/tag/index.html.twig', [
             'tags' => $tagRepository->findAll(),
         ]);
     }
@@ -139,10 +139,10 @@ class AdminController extends AbstractController
             $entityManager->persist($tag);
             $entityManager->flush();
 
-            return $this->redirectToRoute('tag_index');
+            return $this->redirectToRoute('admin_tag_index');
         }
 
-        return $this->render('tag/new.html.twig', [
+        return $this->render('admin/tag/new.html.twig', [
             'tag' => $tag,
             'form' => $form->createView(),
         ]);
@@ -153,7 +153,7 @@ class AdminController extends AbstractController
      */
     public function showTag(Tag $tag): Response
     {
-        return $this->render('tag/show.html.twig', [
+        return $this->render('admin/tag/show.html.twig', [
             'tag' => $tag,
         ]);
     }
@@ -169,10 +169,10 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('tag_index');
+            return $this->redirectToRoute('admin_tag_index');
         }
 
-        return $this->render('tag/edit.html.twig', [
+        return $this->render('admin/tag/edit.html.twig', [
             'tag' => $tag,
             'form' => $form->createView(),
         ]);

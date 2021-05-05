@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article
+{% endblock %}
+
+{% block body %}
+
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('article_index') }}">Articles</a>
+		</li>
+		<li class="breadcrumb-item active">{{article.title}}</li>
+	</ol>
+	<!-- Article Content-->
+	<div class="row">
+		{% if article.picture %}
+			<div class="col-md-8"><img class="img-fluid" src="https://via.placeholder.com/750x500" alt="..."/></div>
+
+			<div class="col-md-4">
+			{% else %}
+				<div class="col-md-12">
+				{% endif %}
+				{% if article.isPublished == false %}
+					<div class="alert alert-warning" role="alert">En attente de validation</div>
+				{% endif %}
+
+				<div class="d-flex mt-2">
+					<h3>{{article.title}}</h3>
+					{% if app.user %}
+						<a class="btn btn-primary ml-2" href="{{ path('article_edit', {'id': article.id}) }}">Modifier l'article</a>
+					{% endif %}
+				</div>
+
+				<small class="text-muted">{{ article.creationDate ? article.creationDate|date('d-m-Y') : '' }}
+					-
+					{{article.getCreator.firstname}}
+					{{article.getCreator.lastname}}</small>
+				{% for category in article.categories %}
+					<span class="badge badge-info">{{category.name}}</span>
+				{% endfor %}
+				{% for tag in article.tags %}
+					<span class="badge badge-dark">{{tag.name}}</span>
+				{% endfor %}
+
+				<p class="pt-2">{{ article.description }}</p>
+				<div>{{version.content}}</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
