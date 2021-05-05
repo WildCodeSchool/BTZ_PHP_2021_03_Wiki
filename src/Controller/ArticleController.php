@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Version;
+use App\Entity\Category;
+use App\Entity\Tag;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
@@ -72,18 +74,18 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            $email = (new Email())
+            //         $email = (new Email())
 
-            ->from('from@example.com')
+            //         ->from('from@example.com')
 
-            ->to('to@example.com')
+            //         ->to('to@example.com')
 
-            ->subject('Une nouvelle article vient d\'être publiée !')
+            //         ->subject('Une nouvelle article vient d\'être publiée !')
 
-            ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
+            //         ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
 
-    $mailer->send($email);
+            // $mailer->send($email);
 
             return $this->redirectToRoute('article_index');
         }
@@ -109,7 +111,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article,MailerInterface $mailer): Response
+    public function edit(Request $request, Article $article, MailerInterface $mailer): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
@@ -131,10 +133,10 @@ class ArticleController extends AbstractController
             ->html('<p>Une article vient d\'être modifiée sur Wiki !</p>');
 
 
-             $mailer->send($email);
+            $mailer->send($email);
 
             return $this->redirectToRoute('article_index');
-         }
+        }
 
         return $this->render('article/edit.html.twig', [
             'article' => $article,
