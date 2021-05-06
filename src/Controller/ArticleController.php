@@ -109,6 +109,18 @@ class ArticleController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/versions", name="article_versions", methods={"GET"})
+     */
+    public function showArticleVersions(Article $article, VersionRepository $versionRepository): Response
+    {
+        $allVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC']);
+        return $this->render('article/versions.html.twig', [
+            'article' => $article,
+            'allVersions' => $allVersions
+        ]);
+    }
+
+    /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Article $article, MailerInterface $mailer): Response
