@@ -47,6 +47,14 @@
 				{% endfor %}
 
 				<p class="pt-2">{{ article.description }}</p>
+				<div>
+					<ul>Dernières versions:
+						<li>Version actuelle:</li>
+						{% for lastVersion in lastVersions %}
+							<li>{{lastVersion.getModificationDate()|date('d-m-Y')}}</li>
+						{% endfor %}
+					</ul>
+				</div>
 				<div>{{version.content}}</div>
 
 			</div>
