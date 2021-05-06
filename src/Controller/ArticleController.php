@@ -95,15 +95,19 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"})
+     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
      */
-    public function show(Article $article, VersionRepository $versionRepository): Response
+    public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
     {
-        $currentVersion = $versionRepository->find($article->getCurrentVersion());
+        if ($version_id == "current") {
+            $version = $versionRepository->find($article->getCurrentVersion());
+        } else {
+            $version = $versionRepository->find($version_id);
+        }
         $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'currentVersion' => $currentVersion,
+            'version' => $version,
             'lastVersions' => $lastVersions
         ]);
     }

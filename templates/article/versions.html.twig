@@ -13,7 +13,7 @@
 
 				<li>
 					<span class="small">Date de modification:</span>
-					<a href="{{ path('version_show', {'id': version.id}) }}">{{ version.modificationDate ? version.modificationDate|date('d-m-Y H:i') : '' }}
+					<a href="{{ path('version_show', {'id': version.id}) }}">{{version.modificationDate|date('d-m-Y H:i')}}
 					</a>
 				</li>
 			{% endfor %}
