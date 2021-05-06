@@ -5,14 +5,24 @@
 {% block body %}
 <h1>Category index</h1>
 
+{% if is_granted('ROLE_ADMIN') %}
+<a href="{{ path('category_new') }}">Create new</a>
+{% endif %}
+
+
 <table class="table">
     <tbody>
         {% for category in categories %}
         <tr>
             <td>
                 <a href="{{ path('category_show_article', {'category': category.id}) }}">{{ category.name }}</a>
-                </td>
-          
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+
+                {% endif %}
+            </td>
+
         </tr>
         {% else %}
         <tr>

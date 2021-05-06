@@ -118,7 +118,7 @@ class AdminController extends AbstractController
     /*************************** TAG ROUTES *************************
 
        /**
-     * @Route("tag/index", name="tag_index", methods={"GET"})
+     * @Route("tag", name="tag_index", methods={"GET"})
      */
     public function indexTag(TagRepository $tagRepository): Response
     {
@@ -151,7 +151,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("tag/{id}", name="tag_show", methods={"GET"})
+     * @Route("tag/{tag}", name="tag_show", methods={"GET"})
      */
     public function showTag(Tag $tag): Response
     {
