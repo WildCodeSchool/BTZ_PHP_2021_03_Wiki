@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tag index{% endblock %}
+
+{% block body %}
+    <h1>Tag index</h1>
+
+    <table class="table">
+      
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+               
+                <td>
+                    <a href="{{ path('tag_show_article', {'tag': tag.id}) }}">{{ tag.name }}</a>
+                  
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_tag_new') }}">Create new</a>
+{% endblock %}

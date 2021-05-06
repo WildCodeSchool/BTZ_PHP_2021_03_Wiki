@@ -1,0 +1,29 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Tag{% endblock %}
+
+{% block content %}
+    <h1>Tag</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+               
+                <td>Tag: {{ tag.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <a>Articles :
+    {% for article in tag.articles %}
+    <li>{{article.id}} - {{article.title}}</li>
+    {% else %}
+    <li>Aucun article pour cette catégorie</li>
+    {% endfor %}
+</a>
+
+    <a href="{{ path('tag_index') }}">back to list</a>
+
+   
+
+   
+{% endblock %}
