@@ -4,14 +4,15 @@
 
 {% block body %}
 <h1>Category index</h1>
-<table>
+
+<table class="table">
     <tbody>
         {% for category in categories %}
         <tr>
-            <div>
+            <td>
                 <a href="{{ path('category_show_article', {'category': category.id}) }}">{{ category.name }}</a>
                 </td>
-            </div>
+          
         </tr>
         {% else %}
         <tr>

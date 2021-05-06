@@ -23,28 +23,17 @@ use App\Repository\TagRepository;
  */
 class AdminController extends AbstractController
 {
-    /**
-     * @Route("dashboard", name="dashboard")
-     */
-    public function dashboard(CategoryRepository $categoryRepository, TagRepository $tagRepository, UserRepository $userRepository): Response
-    {
-        return $this->render('admin/dashboard.html.twig', [
-            'categories' => $categoryRepository->findAll(),
-            'tags' => $tagRepository->findAll(),
-            'users' => $userRepository->findAll()
-        ]);
-    }
+    
 
-    /**
-     * @Route("category/index", name="category_index", methods={"GET"})
+        /**
+     * @Route("category", name="category_index", methods={"GET"}) 
      */
-    public function indexCategory(CategoryRepository $categoryRepository): Response
+    public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('admin/category/index.html.twig', [
             'categories' => $categoryRepository->findAll(),
         ]);
     }
-
     /**
      * @Route("category/new", name="category_new", methods={"GET","POST"})
      */
@@ -69,7 +58,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("category/{id}", name="category_show", methods={"GET"})
+     * @Route("category/{category}", name="category_show", methods={"GET"})
      */
     public function showCategory(Category $category): Response
     {
@@ -113,9 +102,22 @@ class AdminController extends AbstractController
     }
 
 
-    /*************************** TAG ROUTES *************************/
-
     /**
+     * @Route("dashboard", name="dashboard")
+     */
+    public function dashboard(CategoryRepository $categoryRepository, TagRepository $tagRepository, UserRepository $userRepository): Response
+    {
+        return $this->render('admin/dashboard.html.twig', [
+            'categories' => $categoryRepository->findAll(),
+            'tags' => $tagRepository->findAll(),
+            'users' => $userRepository->findAll()
+        ]);
+    }
+
+
+    /*************************** TAG ROUTES *************************
+
+       /**
      * @Route("tag/index", name="tag_index", methods={"GET"})
      */
     public function indexTag(TagRepository $tagRepository): Response
