@@ -73,15 +73,10 @@ class ArticleController extends AbstractController
             $entityManager->flush();
 
             $email = (new Email())
-
-                ->from('from@example.com')
-
-                ->to('to@example.com')
-
-                ->subject('Une nouvelle article vient d\'être publiée !')
-
-                ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
-
+            ->from('from@example.com')
+            ->to('to@example.com')
+            ->subject('Une nouvelle article vient d\'être publiée !')
+            ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
             $mailer->send($email);
 
@@ -136,7 +131,22 @@ class ArticleController extends AbstractController
             $currentUser = $this->getUser();
             $article->setCreator($currentUser);
             $article->setCreationDate(new \DateTime());
+
+            // créer une nouvelle version
+            $version = new Version();
+            $version->setContent($form->get('content')->getData());
+            $version->setModificationDate(new \DateTime());
+            $version->setIsValidated(false);
+            $version->setContributor($currentUser);
+            $version->setArticle($article);
+            $this->getDoctrine()->getManager()->persist($version);
             $this->getDoctrine()->getManager()->flush();
+
+            $article->addVersion($version);
+            $article->setCurrentVersion($version->getId());
+
+            $this->getDoctrine()->getManager()->flush();
+
 
             $email = (new Email())
 
@@ -144,10 +154,9 @@ class ArticleController extends AbstractController
 
                 ->to('to@example.com')
 
-                ->subject('Une article vient d\'être modifiée !')
+            ->subject('Un article vient d\'être modifié !')
 
-                ->html('<p>Une article vient d\'être modifiée sur Wiki !</p>');
-
+            ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
 
             $mailer->send($email);
 
