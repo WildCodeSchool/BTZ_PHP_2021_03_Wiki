@@ -99,11 +99,11 @@ class ArticleController extends AbstractController
      */
     public function show(Article $article, VersionRepository $versionRepository): Response
     {
-        $version = $versionRepository->find($article->getCurrentVersion());
+        $currentVersion = $versionRepository->find($article->getCurrentVersion());
         $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'version' => $version,
+            'currentVersion' => $currentVersion,
             'lastVersions' => $lastVersions
         ]);
     }

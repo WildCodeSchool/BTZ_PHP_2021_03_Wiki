@@ -48,14 +48,19 @@
 
 				<p class="pt-2">{{ article.description }}</p>
 				<div>
-					<ul>Dernières versions:
-						<li>Version actuelle:</li>
+					<ul class="list-unstyled">
+						<u>Dernières versions</u>:
 						{% for lastVersion in lastVersions %}
-							<li>{{lastVersion.getModificationDate()|date('d-m-Y')}}</li>
+
+							<li>
+								<span class="small">Date de modification:</span>
+								<a href="{{ path('version_show', {'id': lastVersion.id}) }}">{{lastVersion.getModificationDate()|date('d-m-Y')}}
+								</a>
+							</li>
 						{% endfor %}
 					</ul>
 				</div>
-				<div>{{version.content}}</div>
+				<div>{{currentVersion.content}}</div>
 
 			</div>
 		</div>
