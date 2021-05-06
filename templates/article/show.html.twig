@@ -54,11 +54,12 @@
 
 							<li>
 								<span class="small">Date de modification:</span>
-								<a href="{{ path('version_show', {'id': lastVersion.id}) }}">{{lastVersion.getModificationDate()|date('d-m-Y')}}
+								<a href="{{ path('version_show', {'id': lastVersion.id}) }}">{{lastVersion.modificationDate|date('d-m-Y - H:i')}}
 								</a>
 							</li>
 						{% endfor %}
 					</ul>
+					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
 				</div>
 				<div>{{currentVersion.content}}</div>
 
