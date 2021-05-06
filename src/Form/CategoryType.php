@@ -14,8 +14,7 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            // not needed here so commented
-            //->add('articles')
+            // ->add('articles', null, ["choice_label" => "id"])
         ;
     }
 

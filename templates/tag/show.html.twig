@@ -1,8 +1,7 @@
-{% extends 'admin/layout.html.twig' %}
-
+{% extends 'base.html.twig' %}
 {% block title %}Tag{% endblock %}
 
-{% block content %}
+{% block body %}
     <h1>Tag</h1>
 
     <table class="table">
@@ -17,13 +16,10 @@
     {% for article in tag.articles %}
     <li>{{article.id}} - {{article.title}}</li>
     {% else %}
-    <li>Aucun article pour ce mot-clé</li>
+    <li>Aucun article pour ce tag</li>
     {% endfor %}
 </a>
 
     <a href="{{ path('tag_index') }}">back to list</a>
-
-   
-
    
 {% endblock %}
