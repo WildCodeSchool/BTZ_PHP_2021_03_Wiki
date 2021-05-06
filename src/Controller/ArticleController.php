@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Version;
-use App\Entity\Category;
-use App\Entity\Tag;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
@@ -74,18 +72,18 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            //         $email = (new Email())
+            $email = (new Email())
 
-            //         ->from('from@example.com')
+                ->from('from@example.com')
 
-            //         ->to('to@example.com')
+                ->to('to@example.com')
 
-            //         ->subject('Une nouvelle article vient d\'être publiée !')
+                ->subject('Une nouvelle article vient d\'être publiée !')
 
-            //         ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
+                ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
 
-            // $mailer->send($email);
+            $mailer->send($email);
 
             return $this->redirectToRoute('article_index');
         }
@@ -102,9 +100,11 @@ class ArticleController extends AbstractController
     public function show(Article $article, VersionRepository $versionRepository): Response
     {
         $version = $versionRepository->find($article->getCurrentVersion());
+        $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'version' => $version
+            'version' => $version,
+            'lastVersions' => $lastVersions
         ]);
     }
 
@@ -124,13 +124,13 @@ class ArticleController extends AbstractController
 
             $email = (new Email())
 
-            ->from('from@example.com')
+                ->from('from@example.com')
 
-            ->to('to@example.com')
+                ->to('to@example.com')
 
-            ->subject('Une article vient d\'être modifiée !')
+                ->subject('Une article vient d\'être modifiée !')
 
-            ->html('<p>Une article vient d\'être modifiée sur Wiki !</p>');
+                ->html('<p>Une article vient d\'être modifiée sur Wiki !</p>');
 
 
             $mailer->send($email);
