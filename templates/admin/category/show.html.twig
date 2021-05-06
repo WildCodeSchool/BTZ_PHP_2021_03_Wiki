@@ -3,7 +3,10 @@
 {% block title %}Category{% endblock %}
 
 {% block body %}
-<h1>Category Admin</h1>
+<h1>Catégorie Admin</h1>
+<a href="{{ path('admin_category_index') }}">back to list</a>
+
+<a href="{{ path('admin_category_edit', {'id': category.id}) }}">edit category</a>
 
 <table class="table">
     <tbody>
@@ -23,9 +26,4 @@
     {% endfor %}
 </a>
 
-<a href="{{ path('admin_category_index') }}">back to list</a>
-
-<a href="{{ path('admin_category_edit', {'id': category.id}) }}">edit category</a>
-
-{{ include('category/_delete_form.html.twig') }}
 {% endblock %}
