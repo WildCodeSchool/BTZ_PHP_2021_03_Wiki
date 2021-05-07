@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -22,9 +23,8 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
-            // ->add('content', TextareaType::class, ['mapped' => false])
-            //TODO image management
-            ->add('picture', FileType::class, ['required' => false])
+            ->add('content', TextareaType::class, ['mapped' => false])
+            ->add('imageFile', VichImageType::class)
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',

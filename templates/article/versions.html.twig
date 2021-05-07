@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{article.title}}
+{% endblock %}
+
+{% block body %}
+	<h1>{{article.title}}</h1>
+	<div>
+		<ul class="list-unstyled">
+			<u>Toutes les versions</u>:
+			{% for version in allVersions %}
+
+				<li>
+					<span class="small">Date de modification:</span>
+					<a href="{{ path('version_show', {'id': version.id}) }}">{{version.modificationDate|date('d-m-Y H:i')}}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}

@@ -3,11 +3,11 @@
 {% block title %}Edit Catégorie{% endblock %}
 
 {% block body %}
-    <h1>Edit Catégory</h1>
+    <h1>Edit Catégorie</h1>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/category/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_category_index') }}">back to list</a>
 
-    {{ include('category/_delete_form.html.twig') }}
+    {{ include('admin/category/_delete_form.html.twig') }}
 {% endblock %}

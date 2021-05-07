@@ -1,21 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Thèmes index{% endblock %}
 
 {% block body %}
-<h1>Category index</h1>
-<table>
+<h1>Thème index</h1>
+
+{% if is_granted('ROLE_ADMIN') %}
+<a href="{{ path('category_new') }}">Create new</a>
+{% endif %}
+
+
+<table class="table">
     <tbody>
         {% for category in categories %}
         <tr>
-            <div>
-                <a href="{{ path('category_show_article', {'category': category.id}) }}">{{ category.name }}</a>
-                </td>
-            </div>
+            <td>
+                <a href="{{ path('category_show', {'category': category.id}) }}">{{ category.name }}</a>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+
+                {% endif %}
+            </td>
+
         </tr>
         {% else %}
         <tr>
-            <td colspan="3">Aucune catégorie</td>
+            <td colspan="3">Aucun thème, contacter l'administrateur</td>
         </tr>
         {% endfor %}
     </tbody>
