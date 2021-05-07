@@ -52,6 +52,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $entityManager = $this->getDoctrine()->getManager();
             $currentUser = $this->getUser();
 
@@ -81,7 +82,7 @@ class ArticleController extends AbstractController
             $entityManager->flush();
 
             $article->setCurrentVersion($version->getId());
-
+            $article->setCreator($currentUser);
             $entityManager->persist($article);
             $entityManager->flush();
 
@@ -117,8 +118,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article, MailerInterface $mailer): Response
+    public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
     {
+        $currentVersion = $versionRepository->find($article->getCurrentVersion());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
