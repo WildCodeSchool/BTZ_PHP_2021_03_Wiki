@@ -37,7 +37,7 @@ class TagController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
- 
+
     /**
      * @Route("/", name="tag_index", methods={"GET"})
      */
@@ -90,7 +90,4 @@ class TagController extends AbstractController
 
         return $this->redirectToRoute('tag_index');
     }
-
 }
-
-

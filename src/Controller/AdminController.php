@@ -7,23 +7,20 @@ use App\Entity\Tag;
 use App\Entity\Article;
 use App\Form\CategoryType;
 use App\Form\TagType;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
 use App\Repository\CategoryRepository;
 use App\Repository\UserRepository;
 use App\Repository\TagRepository;
-
 
 /**
  * @Route("/admin/", name="admin_")
  */
 class AdminController extends AbstractController
 {
-        /**
+    /**
      * @Route("dashboard", name="dashboard")
      */
     public function dashboard(CategoryRepository $categoryRepository, TagRepository $tagRepository, UserRepository $userRepository): Response
@@ -53,7 +50,7 @@ class AdminController extends AbstractController
     // déplacées dans le controleur category pour interface unique
 
     //     /**
-    //  * @Route("category", name="category_index", methods={"GET"}) 
+    //  * @Route("category", name="category_index", methods={"GET"})
     //  */
     // public function index(CategoryRepository $categoryRepository): Response
     // {
@@ -210,4 +207,3 @@ class AdminController extends AbstractController
 
     //     return $this->redirectToRoute('admin_tag_index');
     // }
-
