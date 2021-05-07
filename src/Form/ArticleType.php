@@ -12,6 +12,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -21,8 +24,7 @@ class ArticleType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
             ->add('content', TextareaType::class, ['mapped' => false])
-            //TODO image management
-            ->add('picture', FileType::class, ['required' => false])
+            ->add('imageFile', VichImageType::class)
             ->add('tags', EntityType::class, [
                 'class' => Tag::class,
                 'choice_label' => 'name',
@@ -36,7 +38,9 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'by_reference' => false,
-            ]);
+            ])
+            ->add('content', CKEditorType::class,  ['mapped' => false])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

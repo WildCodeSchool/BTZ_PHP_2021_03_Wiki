@@ -13,13 +13,13 @@
 	</ol>
 	<h1 class="mt-4 mb-3">
 		Liste des articles
-		<small>Trié par date</small>
+		<small>TriÃ© par date</small>
 	</h1>
 	<div class="row">
 		{% for article in articles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
-					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="https://via.placeholder.com/700x400" alt="..."/></a>
+					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
 					<div class="card-body">
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
@@ -35,11 +35,12 @@
 			</div>
 		{% endfor %}
 	</div>
+	 {{ knp_pagination_render(articles) }}
 	<!-- Pagination-->
 	<ul class="pagination justify-content-center">
 		<li class="page-item">
 			<a class="page-link" href="#" aria-label="Previous">
-				<span aria-hidden="true">«</span>
+				<span aria-hidden="true">ï¿½</span>
 				<span class="sr-only">Previous</span>
 			</a>
 		</li>
@@ -54,7 +55,7 @@
 		</li>
 		<li class="page-item">
 			<a class="page-link" href="#" aria-label="Next">
-				<span aria-hidden="true">»</span>
+				<span aria-hidden="true">ï¿½</span>
 				<span class="sr-only">Next</span>
 			</a>
 		</li>

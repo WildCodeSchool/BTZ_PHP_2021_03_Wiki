@@ -3,26 +3,33 @@
 {% block title %}Tag index{% endblock %}
 
 {% block body %}
-    <h1>Tag index</h1>
+<h1>Tag index</h1>
 
-    <table class="table">
-      
-        <tbody>
+
+{% if is_granted('ROLE_ADMIN') %}
+<a href="{{ path('tag_new') }}">Create new</a>
+{% endif %}
+
+<table class="table">
+
+    <tbody>
         {% for tag in tags %}
-            <tr>
-               
-                <td>
-                    <a href="{{ path('tag_show_article', {'tag': tag.id}) }}">{{ tag.name }}</a>
-                  
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <tr>
 
-    <a href="{{ path('admin_tag_new') }}">Create new</a>
+            <td>
+                <a href="{{ path('tag_show', {'tag': tag.id}) }}">{{ tag.name }}</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
+
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">Aucun tag, contacter l'administrateur</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

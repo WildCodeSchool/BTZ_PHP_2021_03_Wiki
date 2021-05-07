@@ -1,11 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Category{% endblock %}
+{% block title %}New Thème{% endblock %}
 
 {% block body %}
-    <h1>Create new Category</h1>
 
-    {{ include('category/_form.html.twig') }}
+<h1>Create new Thèmes</h1>
 
-    <a href="{{ path('category_index') }}">back to list</a>
+{# Admin only #}
+{% if is_granted('ROLE_ADMIN') %}
+{{ include('category/_form.html.twig') }}
+<a href="{{ path('category_index') }}">back to list</a>
+
+{% else %}
+<a>Permission refusée, contacter l'administrateur</a>
+{% endif %}
+
+
+
 {% endblock %}

@@ -35,7 +35,7 @@
 					{% endif %}
 				</div>
 
-				<small class="text-muted">{{ article.creationDate ? article.creationDate|date('d-m-Y') : '' }}
+				<small class="text-muted">{{version.modificationDate|date('d-m-Y') }}
 					-
 					{{article.getCreator.firstname}}
 					{{article.getCreator.lastname}}</small>
@@ -47,8 +47,24 @@
 				{% endfor %}
 
 				<p class="pt-2">{{ article.description }}</p>
-				<div>{{version.content}}</div>
+				<div>
+					<ul class="list-unstyled">
+						<u>Dernières versions</u>:
+						{% for lastVersion in lastVersions %}
+							<li>-
+								<a href="{{ path('article_show', {'id': article.id, 'version_id': lastVersion.id}) }}">
+									{{lastVersion.modificationDate|date('d-m-Y - H:i')}}
+								</a>
+								{% if article.currentVersion == lastVersion.id %}
+									<span class="small">(Version actuelle).</span>
+								{% endif %}
+							</li>
 
+						{% endfor %}
+					</ul>
+					{# <a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a> #}
+				</div>
+				<div>{{version.content|raw}}</div>
 			</div>
 		</div>
 	</div>
