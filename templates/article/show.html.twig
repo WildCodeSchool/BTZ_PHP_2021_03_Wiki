@@ -56,13 +56,13 @@
 									{{lastVersion.modificationDate|date('d-m-Y - H:i')}}
 								</a>
 								{% if article.currentVersion == lastVersion.id %}
-									<span class="small">(Version actuelle).</span>
+									<span class="small">(Version actuelle publiée).</span>
 								{% endif %}
 							</li>
 
 						{% endfor %}
 					</ul>
-					{# <a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a> #}
+					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
 				</div>
 				<div>{{version.content}}</div>
 
