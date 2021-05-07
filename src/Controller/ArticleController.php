@@ -4,8 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Version;
-use App\Entity\Category;
-use App\Entity\Tag;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
@@ -80,7 +78,6 @@ class ArticleController extends AbstractController
             ->subject('Une nouvelle article vient d\'être publiée !')
             ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
-
             $mailer->send($email);
 
             return $this->redirectToRoute('article_index');
@@ -93,14 +90,32 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"})
+     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
      */
-    public function show(Article $article, VersionRepository $versionRepository): Response
+    public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
     {
-        $version = $versionRepository->find($article->getCurrentVersion());
+        if ($version_id == "current") {
+            $version = $versionRepository->find($article->getCurrentVersion());
+        } else {
+            $version = $versionRepository->find($version_id);
+        }
+        $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
         return $this->render('article/show.html.twig', [
             'article' => $article,
-            'version' => $version
+            'version' => $version,
+            'lastVersions' => $lastVersions
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/versions", name="article_versions", methods={"GET"})
+     */
+    public function showArticleVersions(Article $article, VersionRepository $versionRepository): Response
+    {
+        $allVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC']);
+        return $this->render('article/versions.html.twig', [
+            'article' => $article,
+            'allVersions' => $allVersions
         ]);
     }
 
@@ -135,14 +150,13 @@ class ArticleController extends AbstractController
 
             $email = (new Email())
 
-            ->from('from@example.com')
+                ->from('from@example.com')
 
-            ->to('to@example.com')
+                ->to('to@example.com')
 
             ->subject('Un article vient d\'être modifié !')
 
             ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
-
 
             $mailer->send($email);
 
