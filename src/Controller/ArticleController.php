@@ -52,6 +52,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $entityManager = $this->getDoctrine()->getManager();
             $currentUser = $this->getUser();
 
@@ -81,7 +82,7 @@ class ArticleController extends AbstractController
             $entityManager->flush();
 
             $article->setCurrentVersion($version->getId());
-
+            $article->setCreator($currentUser);
             $entityManager->persist($article);
             $entityManager->flush();
 
