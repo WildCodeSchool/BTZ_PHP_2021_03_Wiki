@@ -10,16 +10,15 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class)
-            // not needed here so commented
-            //->add('articles')
+            // ->add('articles', null, ["choice_label" => "id"])
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
