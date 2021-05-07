@@ -12,37 +12,34 @@
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 	</head>
-    <body class="sb-nav-fixed">
-        {% include "_topnav.html.twig" %}
-        <div id="layoutSidenav">
-            <div id="layoutSidenav_nav">
-                {% include "_sidenav.html.twig" %}
-            </div>
-            <div id="layoutSidenav_content">
-                <main>
-                {% block body %}
-                
-                {% endblock %}
-                </main>
-                <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2021</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-
+	<body class="sb-nav-fixed">
+		{% include "_topnav.html.twig" %}
+		<div id="layoutSidenav">
+			<div id="layoutSidenav_nav">
+				{% include "_sidenav.html.twig" %}
+			</div>
+			<div id="layoutSidenav_content">
+				<main>
+					<section class="py-5">
+						<div
+							class="container-fluid">
+							<!-- Page Content-->
+							{% block body %}{% endblock %}
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
 		<!-- Footer-->
-		<footer class="py-5 bg-dark">
+		<footer class="py-4 bg-dark">
 			<div class="container">
-				<p class="m-0 text-center text-white">Copyright &copy; Audap Wiki 2021</p>
+				<div class="d-flex align-items-center justify-content-between small">
+					<div class="text-muted">Copyright &copy; Audap Wiki 2021</div>
+					<div>
+						<a href="#">Privacy Policy</a>
+						<a href="#">Terms &amp; Conditions</a>
+					</div>
+				</div>
 			</div>
 		</footer>
 		{% block javascripts %}
