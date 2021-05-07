@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 
 /**
  * @Route("/article")
@@ -22,12 +23,24 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
-    public function index(ArticleRepository $articleRepository): Response
-    {
-        return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
-        ]);
-    }
+   
+        public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
+        {
+            // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+            $donnees = $this->getDoctrine()->getRepository(Article::class)->findBy([],['creation_date' => 'desc']);
+    
+            $articles = $paginator->paginate(
+                $donnees, // Requête contenant les données à paginer (ici nos articles)
+                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+                12 // Nombre de résultats par page
+            );
+            
+            return $this->render('article/index.html.twig', [
+                'articles' => $articles,
+            ]);
+        }
+        
+    
 
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})

@@ -13,7 +13,7 @@
 	</ol>
 	<h1 class="mt-4 mb-3">
 		Liste des articles
-		<small>Tri� par date</small>
+		<small>Trié par date</small>
 	</h1>
 	<div class="row">
 		{% for article in articles %}
@@ -35,6 +35,7 @@
 			</div>
 		{% endfor %}
 	</div>
+	 {{ knp_pagination_render(articles) }}
 	<!-- Pagination-->
 	<ul class="pagination justify-content-center">
 		<li class="page-item">
