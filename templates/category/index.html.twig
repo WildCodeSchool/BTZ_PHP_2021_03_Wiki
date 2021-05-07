@@ -1,35 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Thèmes index{% endblock %}
+{% block title %}Themes Index {% endblock %}
 
 {% block body %}
-<h1>Thème index</h1>
+
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item active">Articles</li>
+	</ol>
+
+<h1 class="mt-4 mb-3">Liste des Thèmes
+</h1>
 
 {% if is_granted('ROLE_ADMIN') %}
-<a href="{{ path('category_new') }}">Create new</a>
+<a href="{{ path('category_new') }}">Ajouter un thème</a>
 {% endif %}
 
+<div class="row">
+    {% for category in categories %}
+    <div class="col-lg-4 col-sm-6 mb-4">
+        <!-- <div class="card h-100"> -->
+            <div class="card text-center" style="width: 18rem;"> <a
+                    href="{{ path('category_show', {'category': category.id}) }}">{{ category.name}}</a>
+                <div class="card-body">
+                    <p><a class="btn btn-primary"
+                            href="{{ path('category_show', {'category': category.id}) }}">Articles</a>
 
-<table class="table">
-    <tbody>
-        {% for category in categories %}
-        <tr>
-            <td>
-                <a href="{{ path('category_show', {'category': category.id}) }}">{{ category.name }}</a>
-
-                {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
-
-                {% endif %}
-            </td>
-
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="3">Aucun thème, contacter l'administrateur</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-{% endblock %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-primary">Editer</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+    </div>
+    {% else %}
+    <div>
+        <h2>Il n'y a pas de thèmes, contacter l'administrateur'articles</h2>
+    </div>
+    {% endfor %}
+</div>
+ {% endblock %}
