@@ -118,8 +118,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article, MailerInterface $mailer): Response
+    public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
     {
+        $currentVersion = $versionRepository->find($article->getCurrentVersion());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 

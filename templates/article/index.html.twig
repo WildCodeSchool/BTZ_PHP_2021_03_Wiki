@@ -20,7 +20,7 @@
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
 					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
-					<div class="card-body">
+					<div class="card-body pb-5">
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
@@ -38,6 +38,6 @@
 
 	<!-- Pagination-->
 	<ul class="pagination justify-content-center">
-		 {{ knp_pagination_render(articles) }}
+		{{ knp_pagination_render(articles) }}
 	</ul>
 {% endblock %}

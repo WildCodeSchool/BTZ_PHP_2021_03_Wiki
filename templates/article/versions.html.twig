@@ -5,18 +5,32 @@
 {% endblock %}
 
 {% block body %}
-	<h1>{{article.title}}</h1>
-	<div>
-		<ul class="list-unstyled">
-			<u>Toutes les versions</u>:
-			{% for version in allVersions %}
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb mb-4">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('article_index') }}">Articles</a>
+		</li>
+		<li class="breadcrumb-item active">{{article.title}}</li>
+	</li>
+	<li class="breadcrumb-item active">Toutes les versions</li>
+</ol>
+<h1>{{article.title}}</h1>
+<div>
+	<ul class="list-unstyled">
+		<u>Toutes les versions</u>:
+		{% for version in allVersions %}
 
-				<li>
-					<span class="small">Date de modification:</span>
-					<a href="{{ path('version_show', {'id': version.id}) }}">{{version.modificationDate|date('d-m-Y H:i')}}
-					</a>
-				</li>
-			{% endfor %}
-		</ul>
-	</div>
-{% endblock %}
+			<li>
+				<span class="small">Date de modification:</span>
+				<a href="{{ path('article_show', {'id': article.id, 'version_id': version.id}) }}">{{version.modificationDate|date('d-m-Y H:i')}}
+				</a>
+				{% if article.currentVersion == version.id %}
+					<span class="small">(Version actuelle publiée).</span>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+</div>{% endblock %}
