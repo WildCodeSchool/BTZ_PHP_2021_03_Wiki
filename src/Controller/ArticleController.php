@@ -79,7 +79,7 @@ class ArticleController extends AbstractController
 
             $entityManager->persist($article);
             $entityManager->persist($version);
-            // $entityManager->flush();
+            $entityManager->flush();
 
             $article->setCurrentVersion($version->getId());
             $article->setCreator($currentUser);
