@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+
 
 class ArticleType extends AbstractType
 {
@@ -20,7 +22,7 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('content', TextareaType::class, ['mapped' => false])
+            // ->add('content', TextareaType::class, ['mapped' => false])
             //TODO image management
             ->add('picture', FileType::class, ['required' => false])
             ->add('tags', EntityType::class, [
@@ -36,7 +38,9 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'by_reference' => false,
-            ]);
+            ])
+            ->add('content', CKEditorType::class,  ['mapped' => false])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
