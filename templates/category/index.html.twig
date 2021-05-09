@@ -4,13 +4,13 @@
 
 {% block body %}
 
-	<!-- Page Heading/Breadcrumbs-->
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">
-			<a href="{{ path('home') }}">Accueil</a>
-		</li>
-		<li class="breadcrumb-item active">Articles</li>
-	</ol>
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Thèmes</li>
+</ol>
 
 <h1 class="mt-4 mb-3">Liste des Thèmes
 </h1>
@@ -22,19 +22,22 @@
 <div class="row">
     {% for category in categories %}
     <div class="col-lg-4 col-sm-6 mb-4">
-        <!-- <div class="card h-100"> -->
-            <div class="card text-center" style="width: 18rem;"> <a
-                    href="{{ path('category_show', {'category': category.id}) }}">{{ category.name}}</a>
-                <div class="card-body">
-                    <p><a class="btn btn-primary"
-                            href="{{ path('category_show', {'category': category.id}) }}">Articles</a>
 
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-primary">Editer</a>
-                        {% endif %}
-                    </p>
-                </div>
+        <div class="card text-center p-3" style="width: 18rem;"> <a
+                href="{{ path('category_show', {'category': category.id}) }}">{{ category.name}} </a>
+            <a>({{category.articles|length}})</a>
+
+            <div class="card-body">
+                {% if is_granted('ROLE_ADMIN') %}
+              
+                    <a href="{{ path('category_edit', {'id': category.id}) }}" class="btn btn-primary">Editer</a>
+
+                <p>{{ include('category/_delete_form.html.twig') }}</p>
+               
+                {% endif %}
+
             </div>
+        </div>
     </div>
     {% else %}
     <div>
@@ -42,4 +45,8 @@
     </div>
     {% endfor %}
 </div>
- {% endblock %}
+	<!-- Pagination-->
+	<ul class="pagination justify-content-center">
+        {{ knp_pagination_render(categories) }}
+   </ul>
+{% endblock %}
