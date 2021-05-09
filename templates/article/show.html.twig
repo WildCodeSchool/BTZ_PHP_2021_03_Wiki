@@ -17,10 +17,10 @@
 	</ol>
 	<!-- Article Content-->
 	<div class="row">
-		{% if article.picture %}
-			<div class="col-md-8"><img class="img-fluid" src="https://via.placeholder.com/750x500" alt="..."/></div>
+		{% if article.image %}
+			<div class="col-md-6"><img class="img-fluid" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{article.image}}"/></div>
 
-			<div class="col-md-4">
+			<div class="col-md-6">
 			{% else %}
 				<div class="col-md-12">
 				{% endif %}
@@ -56,16 +56,17 @@
 									{{lastVersion.modificationDate|date('d-m-Y - H:i')}}
 								</a>
 								{% if article.currentVersion == lastVersion.id %}
-									<span class="small">(Version actuelle).</span>
+									<span class="small">(Version actuelle publiée).</span>
 								{% endif %}
 							</li>
 
 						{% endfor %}
 					</ul>
-					{# <a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a> #}
+					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
 				</div>
-				<div>{{version.content|raw}}</div>
 			</div>
 		</div>
+		<div class="mt-5">{{version.content|raw}}</div>
 	</div>
+
 {% endblock %}
