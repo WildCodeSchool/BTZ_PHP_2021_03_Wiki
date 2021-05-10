@@ -15,6 +15,7 @@
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>CityAgency</th>
+                <th>status</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -28,6 +29,13 @@
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.cityAgency }}</td>
+                {% if user.validated is same as(true) %}
+                <td>{{ "validé" }}</td>
+                {% else %}
+                <td>{{ "en attente" }}</td>                                
+                {% endif %}
+                
+             
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
