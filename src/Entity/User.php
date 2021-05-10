@@ -72,6 +72,7 @@ class User implements UserInterface
     {
         $this->versions = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->setValidated(false); //New user is by default not validated
     }
 
     public function getId(): ?int
@@ -108,11 +109,11 @@ class User implements UserInterface
     {
         $roles = $this->roles;
        
-       // if (count($roles) === 0){
-          //  $roles[] = 'ROLE_USER';
+        // if (count($roles) === 0){
+        //  $roles[] = 'ROLE_USER';
         //}
 
-       // guarantee every user at least has ROLE_USER
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
