@@ -20,7 +20,7 @@
 </h1>
 	<div class="row">
 		{# Ajouter tri par date de publication desc, ici sort sur ??? #}
-		{% for article in category.articles|sort %}
+		{% for article in category.articles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
 					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
@@ -35,7 +35,7 @@
 			</div>
 		{% else %}
 			<div>
-				<h2>Il n'y a pas d'article</h2>
+				<p>Il n'y a pas d'article pour ce mot clé</p>
 			</div>
 		{% endfor %}
 	</div>
