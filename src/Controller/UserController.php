@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -22,6 +23,16 @@ class UserController extends AbstractController
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/validation", name="user_validation", methods={"GET"})
+     */
+    public function showValidation(UserRepository $userRepository): Response
+    {
+        return $this->render('user/validation.html.twig', [
+            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
         ]);
     }
 
