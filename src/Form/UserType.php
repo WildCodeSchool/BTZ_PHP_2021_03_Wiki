@@ -26,7 +26,7 @@ class UserType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => true ,
-                'label' => 'Rôles' 
+                'label' => 'Rôles'
             ])
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -47,6 +47,7 @@ class UserType extends AbstractType
             ->add('firstname')
             ->add('lastname')
             ->add('cityAgency')
+            ->add('validated')
         ;
     }
 
