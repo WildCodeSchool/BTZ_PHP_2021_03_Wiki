@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+{% if app.flashes %}
+<div class="alert alert-success" role="alert">Votre message a bien été envoyé</div>
+{% endif %}
+
+
+
+    <h1>Contact</h1>
+
+    {{ form_start(form) }}
+       
+    
+    {{ form_end(form) }}
+{% endblock %}

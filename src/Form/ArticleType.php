@@ -62,10 +62,8 @@ class ArticleType extends AbstractType
                 'expanded' => false,
                 'by_reference' => false,
             ])
-<<<<<<< HEAD
             ->add('content', CKEditorType::class,  ['mapped' => false])
-=======
->>>>>>> 9e32a4f6375771a35e80b4f62a20fb4500486b66
+
             ;
     }
 
