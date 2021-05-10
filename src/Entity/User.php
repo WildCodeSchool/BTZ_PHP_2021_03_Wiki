@@ -63,6 +63,11 @@ class User implements UserInterface
      */
     private $cityAgency;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
+
     public function __construct()
     {
         $this->versions = new ArrayCollection();
@@ -244,6 +249,18 @@ class User implements UserInterface
     public function setCityAgency(?string $cityAgency): self
     {
         $this->cityAgency = $cityAgency;
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }
