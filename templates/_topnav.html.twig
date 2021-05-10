@@ -12,11 +12,17 @@
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ml-auto ml-md-0">
+                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{path('app_logout')}}">Se déconnecter</a>
+                </li>
+                {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{path('app_register')}}">S'enregistrer</a>
                 </li>
+                {% endif %}
             </ul>
         </nav>
