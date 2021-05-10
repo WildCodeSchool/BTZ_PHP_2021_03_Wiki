@@ -16,7 +16,7 @@ use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Pagin
  */
 class TagController extends AbstractController
 {
-        /**
+    /**
      * @Route("/new", name="tag_new", methods={"GET","POST"})
      */
     public function newTag(Request $request): Response
@@ -48,7 +48,7 @@ class TagController extends AbstractController
         $donnees = $this->getDoctrine()->getRepository(Tag::class)->findBy([], ['name' => 'asc']);
 
         $tags = $paginator->paginate(
-            $donnees, // Requête contenant les données à paginer (ici nos catégories)
+            $donnees, // Requête contenant les données à paginer (ici nos tags)
             $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
             12 // Nombre de résultats par page
         );
@@ -58,7 +58,7 @@ class TagController extends AbstractController
         ]);
     }
 
-/**
+    /**
      * @Route("/{tag}", name="tag_show", methods={"GET"})
      */
     public function show(Tag $tag): Response

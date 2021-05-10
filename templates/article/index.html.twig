@@ -12,15 +12,14 @@
 		<li class="breadcrumb-item active">Articles</li>
 	</ol>
 	<h1 class="mt-4 mb-3">
-		Liste des articles
-		<small>Trié par date</small>
+		Tous les articles
 	</h1>
 	<div class="row">
 		{% for article in articles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
 					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
-					<div class="card-body">
+					<div class="card-body pb-5">
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
@@ -31,13 +30,13 @@
 			</div>
 		{% else %}
 			<div>
-				<h2>Il n'y a pas d'articles</td>
+				<h2>Il n'y a pas d'article</td>
 			</div>
 		{% endfor %}
 	</div>
 
 	<!-- Pagination-->
 	<ul class="pagination justify-content-center">
-		 {{ knp_pagination_render(articles) }}
+		{{ knp_pagination_render(articles) }}
 	</ul>
 {% endblock %}
