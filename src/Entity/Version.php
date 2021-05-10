@@ -39,6 +39,7 @@ class Version
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="versions")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $contributor;
 
@@ -49,7 +50,7 @@ class Version
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="versions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $article;
 
