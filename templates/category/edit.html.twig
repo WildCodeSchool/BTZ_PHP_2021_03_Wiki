@@ -1,15 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Thèmes{% endblock %}
+{% block title %}Thème index{% endblock %}
 
 {% block body %}
-<h1>Edit Thèmes</h1>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('category_index')}}">Thèmes</a>
+    </li>
+    <li class="breadcrumb-item active">Edition</li>
+</ol>
+<h1>Edition du thème : </h1>
+
 {# Admin only #}
 {% if is_granted('ROLE_ADMIN') %}
 
-{{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
-<a href="{{ path('category_index') }}">back to list</a>
-{{ include('category/_delete_form.html.twig') }}
+{{ include('category/_form.html.twig', {'button_label': 'sauve'}) }}
+<a href="{{ path('category_index') }}">retour</a>
+
+{# {{ include('category/_delete_form.html.twig') }} #}
 
 {% else %}
 <a>Permission refusée, contacter l'administrateur</a>
