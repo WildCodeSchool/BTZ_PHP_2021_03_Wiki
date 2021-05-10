@@ -30,6 +30,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index');
     }
 
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -41,11 +42,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/validation", name="user_validation", methods={"GET"})
+     */
+    public function showValidation(UserRepository $userRepository): Response
+    {
+        return $this->render('user/validation.html.twig', [
+            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
+        ]);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $user = new User();
+        $user->setValidated(false);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
