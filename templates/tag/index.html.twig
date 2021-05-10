@@ -1,35 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tag index{% endblock %}
+{% block title %}Mots clés Index {% endblock %}
 
 {% block body %}
-<h1>Tag index</h1>
 
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Mots-clés</li>
+</ol>
+
+<h1 class="mt-4 mb-3">Liste des Mots Clés
+</h1>
 
 {% if is_granted('ROLE_ADMIN') %}
-<a href="{{ path('tag_new') }}">Create new</a>
+<a href="{{ path('tag_new') }}" class="btn btn-success mb-3">Créer un mot clé</a>
 {% endif %}
 
-<table class="table">
+<div class="row">
+    {% for tag in tags %}
+    <div class="col-lg-4 col-sm-6 mb-4">
 
-    <tbody>
-        {% for tag in tags %}
-        <tr>
+        <div class="card text-center p-3" style="width: 18rem;"> <a
+                href="{{ path('tag_show', {'tag': tag.id}) }}">{{ tag.name}} </a>
+            <a>({{tag.articles|length}})</a>
+                
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="card-body">
+                <div class="d-flex justify-content-around">
+                <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-primary">éditer</a>
 
-            <td>
-                <a href="{{ path('tag_show', {'tag': tag.id}) }}">{{ tag.name }}</a>
-                {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
+                {% if tag.articles is empty %}
+                <span>{{ include('tag/_delete_form.html.twig') }}</span>
+                </div>
+
+                {% else %}
+            
+                <input type="button" class="btn btn-secondary" value="supprimer" disabled>
+                </div>
 
                 {% endif %}
-            </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="3">Aucun tag, contacter l'administrateur</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div>
+        <h2>Il n'y a pas de mot clé, contacter l'administrateur </h2>
+    </div>
+    {% endfor %}
+</div>
+<!-- Pagination-->
+<ul class="pagination justify-content-center">
+    {{ knp_pagination_render(tags) }}
+</ul>
 {% endblock %}

@@ -1,25 +1,43 @@
 {% extends 'base.html.twig' %}
-{% block title %}Tag{% endblock %}
+
+{% block title %}Mots-clés index
+{% endblock %}
 
 {% block body %}
-    <h1>Tag</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-               
-                <td>Tag: {{ tag.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <a>Articles :
-    {% for article in tag.articles %}
-    <li>{{article.id}} - {{article.title}}</li>
-    {% else %}
-    <li>Aucun article pour ce tag</li>
-    {% endfor %}
-</a>
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+	<li class="breadcrumb-item">
+        <a href="{{ path('tag_index') }}">Mots-clés</a>
+    </li>
+    <li class="breadcrumb-item active">Articles</li>
+</ol>
 
-    <a href="{{ path('tag_index') }}">back to list</a>
-   
+<h1 class="mt-4 mb-3">Mot clé : <small>{{tag.name}}</small>
+</h1>
+	<div class="row">
+		{# Ajouter tri par date de publication desc, ici sort sur ??? #}
+		{% for article in tag.articles|sort %}
+			<div class="col-lg-4 col-sm-6 mb-4">
+				<div class="card h-100">
+					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
+					<div class="card-body pb-5">
+						<h4 class="card-title">
+							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
+						</h4>
+						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
+						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div>
+				<h2>Il n'y a pas d'article</h2>
+			</div>
+		{% endfor %}
+	</div>
+
 {% endblock %}
