@@ -4,9 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
-use App\Repository\CategoryRepository;
-use App\Repository\UserRepository;
-use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +41,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/", name="category_index", methods={"GET"})
      */
-     public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
+    public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
     {
         // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
         $donnees = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'asc']);
@@ -59,12 +56,6 @@ class CategoryController extends AbstractController
             'categories' => $categories,
         ]);
     }
-    // public function index(CategoryRepository $categoryRepository): Response
-    // {
-    //     return $this->render('category/index.html.twig', [
-    //         'categories' => $categoryRepository->findAll(),
-    //     ]);
-    // }
 
     /**
      * @Route("/{category}", name="category_show", methods={"GET"})
