@@ -15,6 +15,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
+
+    /**
+     * @Route("/delete/{id}/", requirements={"id"="\d+"}, name="user_delete", methods={"POST"})
+     */
+    public function delete(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
+
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -26,11 +42,22 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/validation", name="user_validation", methods={"GET"})
+     */
+    public function showValidation(UserRepository $userRepository): Response
+    {
+        return $this->render('user/validation.html.twig', [
+            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
+        ]);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $user = new User();
+        $user->setValidated(false);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -49,7 +76,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/{id}", requirements={"id"="\d+"}, name="user_show", methods={"GET"})
      */
     public function show(User $user): Response
     {
@@ -59,7 +86,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user): Response
     {
@@ -78,17 +105,4 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="user_delete", methods={"POST"})
-     */
-    public function delete(Request $request, User $user): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index');
-    }
 }
