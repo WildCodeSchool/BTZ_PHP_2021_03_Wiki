@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+//needed to implement unicity of tag name
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
  */
@@ -77,5 +79,15 @@ class Tag
         $this->articles->removeElement($article);
 
         return $this;
+    }
+
+    // implement uniqueEntity on name
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'name',
+            'errorPath' => 'port',
+            'message' => 'Un mot clé avec ce nom existe déjà.',
+        ],));
     }
 }

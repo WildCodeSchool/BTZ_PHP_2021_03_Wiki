@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-// LI will allow validation with @assert functionnality 
+// will allow validation with @assert functionnality 
 use Symfony\Component\Validator\Constraints as Assert;
-//LI needed to implement unicity of category name
+//needed to implement unicity of category name
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
@@ -85,8 +85,7 @@ class Category
     }
 
 
-    // LI function needed to implement uniqueEntity on title
-    // it must be unique
+    // implement uniqueEntity on namee
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addConstraint(new UniqueEntity([
