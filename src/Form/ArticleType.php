@@ -44,12 +44,13 @@ class ArticleType extends AbstractType
         }
 
         $builder
-            ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion])
-            ->add('imageFile', VichImageType::class, ['required' => false])
+            ->add('title', TextType::class , ['label' => 'Nom'])
+            ->add('description', TextareaType::class,['label' => 'Description'])
+            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'],)
+            ->add('imageFile', VichImageType::class, ['required' => false, 'label' => 'Image'])
             ->add('tags', EntityType::class, [
-                'class' => Tag::class,
+                'class' => Tag::class, 
+                'label' => 'Mots clés',
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => false,
@@ -57,6 +58,7 @@ class ArticleType extends AbstractType
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
+                'label' => 'Thèmes',
                 'choice_label' => 'name',
                 'multiple' => true,
                 'expanded' => false,

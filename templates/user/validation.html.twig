@@ -1,28 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des utilisateurs{% endblock %}
+{% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>Liste des utilisateurs</h1>
+    <h1>User index</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
+                <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Ville</th>
+               {# <th>Password</th>#}
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>CityAgency</th>
                 <th>status</th>
+                {# <th>actions</th> #}
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.firstname }}</td>
+                <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                {#<td>{{ user.password }}</td>#}
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.cityAgency }}</td>
                 {% if user.validated is same as(true) %}
                 <td>{{ "validé" }}</td>
@@ -32,9 +37,8 @@
                 
              
                 <td>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
-                    <a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
-                    {% include "user/_delete_form.html.twig" %}
+                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

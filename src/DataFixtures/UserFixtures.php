@@ -30,8 +30,10 @@ class UserFixtures extends Fixture
             $user->setEmail('user'.$i.'@wiki.com');
             $user->setRoles(['ROLE_USER']);
             $user->setPassword($this->passwordEncoder->encodePassword(
-                $user, 'userpassword'
+                $user,
+                'userpassword'
             ));
+            $user->setValidated(true);
             $manager->persist($user);
             $this->addReference('user_'. $i, $user);
         }
@@ -44,8 +46,10 @@ class UserFixtures extends Fixture
         $moderator->setEmail('moderator@wiki.com');
         $moderator->setRoles(['ROLE_MODERATOR']);
         $moderator->setPassword($this->passwordEncoder->encodePassword(
-            $moderator, 'moderatorpassword'
+            $moderator,
+            'moderatorpassword'
         ));
+        $moderator->setValidated(true);
 
         $manager->persist($moderator);
 
@@ -57,12 +61,12 @@ class UserFixtures extends Fixture
         $admin->setEmail('admin@wiki.com');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordEncoder->encodePassword(
-            $admin, 'adminpassword'
+            $admin,
+            'adminpassword'
         ));
-
+        $admin->setValidated(true);
 
         $manager->persist($admin);
-
 
         // Sauvegarde des nouveaux utilisateurs :
 
