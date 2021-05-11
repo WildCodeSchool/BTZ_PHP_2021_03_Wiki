@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 /**
  * @Route("/user")
  */
@@ -30,13 +32,38 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/validation", name="user_validation", methods={"GET"})
+     * @Route("/validation", name="user_validation", methods={"GET","POST"})
      */
-    public function showValidation(UserRepository $userRepository): Response
+    public function listValidation(Request $request, UserRepository $userRepository): Response
     {
-        return $this->render('user/validation.html.twig', [
-            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
-        ]);
+        //If there's something in $_POST, we update the given user (id)
+        if (isset($_POST) && !empty($_POST)) {
+            $user = $userRepository->findOneBy(['id'=>$_POST['id']]);
+            $user->setValidated($_POST['form']['validated']);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('user_validation');
+        }
+        
+        $users = $userRepository->findBy(['validated' => 0]);  //Within the DB, '0' means 'false'
+
+        $forms = array();
+
+        foreach ($users as $user) {
+            //Create a form for each user and keep its ID as key
+            $forms[$user->getId()] = $this->createFormBuilder($user)
+            ->add('validated')
+            ->getForm()
+            ->handleRequest($request)
+            ->createView();
+        }
+
+        return $this->render(
+            'user/validation.html.twig',
+            [
+            'users' => $users,
+            'forms' => $forms,
+        ],
+        );
     }
 
     /**
@@ -85,7 +112,26 @@ class UserController extends AbstractController
      */
     public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, User $user): Response
     {
-        $form = $this->createForm(UserType::class, $user);
+        //Create a custom form without the password field (to keep the last untouched)
+        //The rest of fields are the same as in UserType
+        $form = $this->createFormBuilder($user)
+        ->add('email')
+        ->add('roles', ChoiceType::class, [
+            'choices' => [
+                'Utilisateur' => 'ROLE_USER',
+                'Moderateur' => 'ROLE_MODERATOR',
+                'Administrateur' => 'ROLE_ADMIN'
+            ],
+            'expanded' => true,
+            'multiple' => true ,
+            'label' => 'Rôles'
+        ])
+        ->add('firstname')
+        ->add('lastname')
+        ->add('cityAgency')
+        ->add('validated')
+        ->getForm();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -106,6 +152,7 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+  
       /**
      * @Route("/delete/{id}/", requirements={"id"="\d+"}, name="user_delete", methods={"POST"})
      */
@@ -119,6 +166,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
-
 
 }
