@@ -3,47 +3,44 @@
 {% block title %}Liste des utilisateurs{% endblock %}
 
 {% block body %}
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Utilisateurs</li>
+</ol>
     <h1>Liste des utilisateurs</h1>
-
+    <a class="btn btn-success mb-3" href="{{ path('user_new') }}">Créer un utilisateur</a>
     <table class="table">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
                 <th>Email</th>
-                <th>Roles</th>
+                <th>Rôle</th>
+                <th>Prénom</th>
+                <th>Nom</th>
                 <th>Ville</th>
-                <th>status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
-            <tr>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.email }}</td>
+           <tr>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.cityAgency }}</td>
-                {% if user.validated is same as(true) %}
-                <td>{{ "validé" }}</td>
-                {% else %}
-                <td>{{ "en attente" }}</td>                                
-                {% endif %}
-                
-             
-                <td>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
-                    <a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
-                    {% include "user/_delete_form.html.twig" %}
+                <td class="d-flex justify-content-around">
+                    <a class="btn btn-primary" href="{{ path('user_edit', {'id': user.id}) }}">Editer</a>
+                    <span>{{ include('user/_delete_form.html.twig') }}</span>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Il n'y a pas d'utilisateur</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}
