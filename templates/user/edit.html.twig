@@ -4,23 +4,10 @@
 
 {% block body %}
     <h1>Edit User</h1>
-
-    {# {{ include('user/_form.html.twig', {'button_label': 'Update'}) }} #}
-    
     {{ form_start(form) }}
-    <div class="my-custom-class-for-errors">
-        {{ form_errors(form) }}
-    </div>
-
-    <div class="row">
-        <div class="col">
-            {{ form_row(form.task) }}
-        </div>
-        <div class="col" id="some-custom-id">
-            {{ form_row(form.dueDate) }}
-        </div>
-    </div>
-{{ form_end(form) }}
+    {{ form_widget(form) }}
+    <button class="btn" type='submit' formmethod="post">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('user_index') }}">back to list</a>
 
