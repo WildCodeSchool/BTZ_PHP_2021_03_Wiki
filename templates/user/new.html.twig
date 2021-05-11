@@ -1,11 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Création d'un utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+<!-- Page Heading/Breadcrumbs-->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ path('home') }}">Accueil</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{{ path('user_index') }}">Utilisateurs</a>
+        </li>
+        <li class="breadcrumb-item active">Création</li>
+    </ol>
+    <h1>Création d'un utilisateur</h1>
 
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+    <a href="{{ path('user_index') }}">retour</a>
 {% endblock %}
