@@ -1,59 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mots clés Index {% endblock %}
+{% block title %}Liste des Mots Clés
+{% endblock %}
 
 {% block body %}
 
-<!-- Page Heading/Breadcrumbs-->
-<ol class="breadcrumb">
-    <li class="breadcrumb-item">
-        <a href="{{ path('home') }}">Accueil</a>
-    </li>
-    <li class="breadcrumb-item active">Mots-clés</li>
-</ol>
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item active">Mots-clés</li>
+	</ol>
 
-<h1 class="mt-4 mb-3">Liste des Mots Clés
-</h1>
+	<h1 class="mt-4 mb-3">Liste des Mots Clés</h1>
 
-{% if is_granted('ROLE_ADMIN') %}
-<a href="{{ path('tag_new') }}" class="btn btn-success mb-3">créer un mot clé</a>
-{% endif %}
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('tag_new') }}" class="btn btn-success mb-3">créer un mot clé</a>
+	{% endif %}
 
-<div class="row">
-    {% for tag in tags %}
-    <div class="col-lg-4 col-sm-6 mb-4">
+	<div class="row">
+		{% for tag in tags %}
+			<div class="col-lg-4 col-sm-6 mb-4">
 
-        <div class="card text-center p-3" style="width: 18rem;"> <a
-                href="{{ path('tag_show', {'tag': tag.id}) }}">{{ tag.name}} </a>
-            <a>({{tag.articles|length}})</a>
-                
-            {% if is_granted('ROLE_ADMIN') %}
-            <div class="card-body">
-                <div class="d-flex justify-content-around">
-                <a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-primary">éditer</a>
+				<div class="card text-center p-3" style="width: 18rem;">
+					<a href="{{ path('tag_show', {'tag': tag.id}) }}">{{ tag.name}}
+					</a>
+					<a>({{tag.articles|length}})</a>
 
-                {% if tag.articles is empty %}
-                <span>{{ include('tag/_delete_form.html.twig') }}</span>
-                </div>
+					{% if is_granted('ROLE_ADMIN') %}
+						<div class="card-body">
+							<div class="d-flex justify-content-around">
+								<a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-primary">éditer</a>
 
-                {% else %}
-            
-                <input type="button" class="btn btn-secondary" value="supprimer" disabled>
-                </div>
+								{% if tag.articles is empty %}
+									<span>{{ include('tag/_delete_form.html.twig') }}</span>
+								</div>
 
-                {% endif %}
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    {% else %}
-    <div>
-        <h2>Il n'y a pas de mot clé, contacter l'administrateur </h2>
-    </div>
-    {% endfor %}
+							{% else %}
+
+								<input type="button" class="btn btn-secondary" value="supprimer" disabled>
+							</div>
+
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	{% else %}
+		<div>
+			<h2>Il n'y a pas de mot clé, contacter l'administrateur
+			</h2>
+		</div>
+	{% endfor %}
 </div>
 <!-- Pagination-->
 <ul class="pagination justify-content-center">
-    {{ knp_pagination_render(tags) }}
-</ul>
-{% endblock %}
+	{{ knp_pagination_render(tags) }}
+</ul>{% endblock %}
