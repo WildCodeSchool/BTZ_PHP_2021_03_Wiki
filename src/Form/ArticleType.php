@@ -42,11 +42,12 @@ class ArticleType extends AbstractType
         } else {
             $contentVersion = '';
         }
+        //dd($version);
 
         $builder
             ->add('title', TextType::class , ['label' => 'Nom'])
             ->add('description', TextareaType::class,['label' => 'Description'])
-            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'],)
+            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'])
             ->add('imageFile', VichImageType::class, ['required' => false, 'label' => 'Image'])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class, 
@@ -63,10 +64,7 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'by_reference' => false,
-            ])
-            ->add('content', CKEditorType::class,  ['mapped' => false])
-
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
