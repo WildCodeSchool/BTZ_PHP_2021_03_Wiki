@@ -44,11 +44,24 @@ class UserController extends AbstractController
     /**
      * @Route("/validation", name="user_validation", methods={"GET"})
      */
-    public function showValidation(UserRepository $userRepository): Response
+    public function validation(UserRepository $userRepository): Response
     {
-        return $this->render('user/validation.html.twig', [
-            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
-        ]);
+        $users = $userRepository->findBy(['validated' => 0]);  //Within the DB, '0' means 'false'
+
+        $forms = array();
+
+        foreach ($users as $user) {
+            //Create a form for each user and keep its ID as key
+            $forms[$user->getId()] = $this->createForm(UserType::class, $user)->createView();
+        }
+
+        return $this->render(
+            'user/validation.html.twig',
+            [
+            'users' => $users,
+            'forms' => $forms,
+        ],
+        );
     }
 
     /**
@@ -104,5 +117,4 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
 }
