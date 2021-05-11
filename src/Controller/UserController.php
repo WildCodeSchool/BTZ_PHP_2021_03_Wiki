@@ -44,17 +44,29 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/validation", name="user_validation", methods={"GET"})
+     * @Route("/validation", name="user_validation", methods={"GET","POST"})
      */
-    public function validation(UserRepository $userRepository): Response
+    public function listValidation(Request $request, UserRepository $userRepository): Response
     {
+        //If there's something in $_POST, we update the given user (id)
+        if (isset($_POST) && !empty($_POST)) {
+            $user = $userRepository->findOneBy(['id'=>$_POST['id']]);
+            $user->setValidated($_POST['form']['validated']);
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('user_validation');
+        }
+        
         $users = $userRepository->findBy(['validated' => 0]);  //Within the DB, '0' means 'false'
 
         $forms = array();
 
         foreach ($users as $user) {
             //Create a form for each user and keep its ID as key
-            $forms[$user->getId()] = $this->createForm(UserType::class, $user)->createView();
+            $forms[$user->getId()] = $this->createFormBuilder($user)
+            ->add('validated')
+            ->getForm()
+            ->handleRequest($request)
+            ->createView();
         }
 
         return $this->render(

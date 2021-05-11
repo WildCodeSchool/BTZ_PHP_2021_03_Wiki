@@ -27,9 +27,12 @@
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.cityAgency }}</td>
                 <td>
-                {{ form_row(forms[user.id].validated) }}
-                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                    {{ form_start(forms[user.id]) }}
+                    {{ form_widget(forms[user.id]) }}
+                    <button class="btn" name="id" value={{user.id}}>{{ button_label|default('Enregistrer') }}</button>
+                    {{ form_end(forms[user.id]) }}
                 </td>
+                {# <td><a href="{{ path('user_edit', {'id': user.id}) }}">Valider</a></td> #}
 
 
 
