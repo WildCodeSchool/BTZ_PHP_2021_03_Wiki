@@ -18,7 +18,7 @@
 {# Admin only #}
 {% if is_granted('ROLE_ADMIN') %}
 
-{{ include('tag/_form.html.twig', {'button_label': 'sauve'}) }}
+{{ include('tag/_form.html.twig', {'button_label': 'sauver'}) }}
 <a href="{{ path('tag_index') }}">retour</a>
 
 {% else %}
