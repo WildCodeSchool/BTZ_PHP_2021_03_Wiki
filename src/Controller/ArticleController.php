@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Version;
 use App\Form\ArticleType;
-use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,24 +22,24 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
-   
-        public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
-        {
-            // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
-            $donnees = $this->getDoctrine()->getRepository(Article::class)->findBy([],['creation_date' => 'desc']);
-    
-            $articles = $paginator->paginate(
-                $donnees, // Requête contenant les données à paginer (ici nos articles)
-                $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
-                12 // Nombre de résultats par page
-            );
-            
-            return $this->render('article/index.html.twig', [
-                'articles' => $articles,
-            ]);
-        }
-        
-    
+
+    public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
+    {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $donnees = $this->getDoctrine()->getRepository(Article::class)->findBy([], ['creation_date' => 'desc']);
+
+        $articles = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            12 // Nombre de résultats par page
+        );
+
+        return $this->render('article/index.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
+
+
 
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
@@ -87,10 +86,10 @@ class ArticleController extends AbstractController
             $entityManager->flush();
 
             $email = (new Email())
-            ->from('from@example.com')
-            ->to('to@example.com')
-            ->subject('Une nouvelle article vient d\'être publiée !')
-            ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
+                ->from('from@example.com')
+                ->to('to@example.com')
+                ->subject('Une nouvelle article vient d\'être publiée !')
+                ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
             $mailer->send($email);
 
@@ -100,24 +99,6 @@ class ArticleController extends AbstractController
         return $this->render('article/new.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
-     */
-    public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
-    {
-        if ($version_id == "current") {
-            $version = $versionRepository->find($article->getCurrentVersion());
-        } else {
-            $version = $versionRepository->find($version_id);
-        }
-        $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
-        return $this->render('article/show.html.twig', [
-            'article' => $article,
-            'version' => $version,
-            'lastVersions' => $lastVersions
         ]);
     }
 
@@ -136,8 +117,9 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article, MailerInterface $mailer): Response
+    public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
     {
+        $currentVersion = $versionRepository->find($article->getCurrentVersion());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -168,9 +150,9 @@ class ArticleController extends AbstractController
 
                 ->to('to@example.com')
 
-            ->subject('Un article vient d\'être modifié !')
+                ->subject('Un article vient d\'être modifié !')
 
-            ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
+                ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
 
             $mailer->send($email);
 
@@ -180,6 +162,24 @@ class ArticleController extends AbstractController
         return $this->render('article/edit.html.twig', [
             'article' => $article,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
+     */
+    public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
+    {
+        if ($version_id == "current") {
+            $version = $versionRepository->find($article->getCurrentVersion());
+        } else {
+            $version = $versionRepository->find($version_id);
+        }
+        $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
+        return $this->render('article/show.html.twig', [
+            'article' => $article,
+            'version' => $version,
+            'lastVersions' => $lastVersions
         ]);
     }
 

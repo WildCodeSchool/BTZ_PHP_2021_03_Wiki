@@ -63,10 +63,16 @@ class User implements UserInterface
      */
     private $cityAgency;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
+
     public function __construct()
     {
         $this->versions = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->setValidated(false); //New user is by default not validated
     }
 
     public function getId(): ?int
@@ -103,11 +109,11 @@ class User implements UserInterface
     {
         $roles = $this->roles;
        
-       // if (count($roles) === 0){
-          //  $roles[] = 'ROLE_USER';
+        // if (count($roles) === 0){
+        //  $roles[] = 'ROLE_USER';
         //}
 
-       // guarantee every user at least has ROLE_USER
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -244,6 +250,18 @@ class User implements UserInterface
     public function setCityAgency(?string $cityAgency): self
     {
         $this->cityAgency = $cityAgency;
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Article index
+{% block title %}Tous les articles
 {% endblock %}
 
 {% block body %}
@@ -12,15 +12,14 @@
 		<li class="breadcrumb-item active">Articles</li>
 	</ol>
 	<h1 class="mt-4 mb-3">
-		Liste des articles
-		<small>Trié par date</small>
+		Tous les articles
 	</h1>
 	<div class="row">
 		{% for article in articles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
 					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
-					<div class="card-body">
+					<div class="card-body pb-5">
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
@@ -31,33 +30,13 @@
 			</div>
 		{% else %}
 			<div>
-				<h2>Il n'y a pas d'articles</td>
+				<h2>Il n'y a pas d'article</td>
 			</div>
 		{% endfor %}
 	</div>
-	 {{ knp_pagination_render(articles) }}
+
 	<!-- Pagination-->
 	<ul class="pagination justify-content-center">
-		<li class="page-item">
-			<a class="page-link" href="#" aria-label="Previous">
-				<span aria-hidden="true">�</span>
-				<span class="sr-only">Previous</span>
-			</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#!">1</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#!">2</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#!">3</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="#" aria-label="Next">
-				<span aria-hidden="true">�</span>
-				<span class="sr-only">Next</span>
-			</a>
-		</li>
+		{{ knp_pagination_render(articles) }}
 	</ul>
 {% endblock %}

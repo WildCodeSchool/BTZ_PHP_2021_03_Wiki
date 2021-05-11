@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Tag{% endblock %}
+{% block title %}Edition du mot clé
+{% endblock %}
 
 {% block body %}
-<h1>Edit Tag</h1>
-{# Admin only #}
-{% if is_granted('ROLE_ADMIN') %}
 
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('tag_index')}}">Mots-clés</a>
+		</li>
+		<li class="breadcrumb-item active">Edition</li>
+	</ol>
+	<h1>Edition du mot clé</h1>
 
-{{ include('tag/_form.html.twig', {'button_label': 'Update'}) }}
+	{# Admin only #}
+	{% if is_granted('ROLE_ADMIN') %}
 
-<a href="{{ path('tag_index') }}">back to list</a>
+		{{ include('tag/_form.html.twig', {'button_label': 'sauver'}) }}
+		<a href="{{ path('tag_index') }}">retour</a>
 
-{{ include('tag/_delete_form.html.twig') }}
+	{% else %}
+		<a>Permission refusée, contacter l'administrateur</a>
+	{% endif %}
 
-{% else %}
-<a>Permission refusée, contacter l'administrateur</a>
-{% endif %}
 {% endblock %}

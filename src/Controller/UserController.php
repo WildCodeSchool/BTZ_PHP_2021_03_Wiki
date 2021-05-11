@@ -9,12 +9,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
  */
 class UserController extends AbstractController
 {
+
+  
+
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
@@ -26,15 +30,33 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/validation", name="user_validation", methods={"GET"})
+     */
+    public function showValidation(UserRepository $userRepository): Response
+    {
+        return $this->render('user/validation.html.twig', [
+            'users' => $userRepository->findBy(['validated' => 0]), //Within the DB, '0' means 'false'
+        ]);
+    }
+
+    /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
+        $user->setValidated(false);
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $encodedPassword = $passwordEncoder->encodePassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            );
+
+            $user->setPassword($encodedPassword);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -49,7 +71,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/{id}", requirements={"id"="\d+"}, name="user_show", methods={"GET"})
      */
     public function show(User $user): Response
     {
@@ -59,14 +81,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", requirements={"id"="\d+"}, name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $encodedPassword = $passwordEncoder->encodePassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            );
+
+            $user->setPassword($encodedPassword);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
@@ -77,9 +106,8 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
-    /**
-     * @Route("/{id}", name="user_delete", methods={"POST"})
+      /**
+     * @Route("/delete/{id}/", requirements={"id"="\d+"}, name="user_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user): Response
     {
@@ -91,4 +119,6 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
+
+
 }

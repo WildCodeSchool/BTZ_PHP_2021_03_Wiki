@@ -1,18 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Tag{% endblock %}
+{% block title %}Création d'un mot clé
+{% endblock %}
 
 {% block body %}
-<h1>Create new Tag</h1>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('tag_index')}}">Mots-clés</a>
+		</li>
+		<li class="breadcrumb-item active">Création</li>
+	</ol>
 
-{# Admin only #}
-{% if is_granted('ROLE_ADMIN') %}
+	<h1>Création d'un mot clé</h1>
 
-{{ include('tag/_form.html.twig') }}
+	{# Admin only #}
+	{% if is_granted('ROLE_ADMIN') %}
+		{{ include('tag/_form.html.twig') }}
+		<a href="{{ path('tag_index') }}">retour</a>
 
-<a href="{{ path('tag_index') }}">back to list</a>
+	{% else %}
+		<a>Permission refusée, contacter l'administrateur</a>
+	{% endif %}
 
-{% else %}
-<a>Permission refusée, contacter l'administrateur</a>
-{% endif %}
+
 {% endblock %}

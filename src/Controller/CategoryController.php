@@ -4,13 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
-use App\Repository\CategoryRepository;
-use App\Repository\UserRepository;
-use App\Repository\TagRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 
 /**
  * @Route("/category")
@@ -43,12 +41,22 @@ class CategoryController extends AbstractController
     /**
      * @Route("/", name="category_index", methods={"GET"})
      */
-    public function index(CategoryRepository $categoryRepository): Response
+    public function index(Request $request, PaginatorInterface $paginator) // Nous ajoutons les paramètres requis
     {
+        // Méthode findBy qui permet de récupérer les données avec des critères de filtre et de tri
+        $donnees = $this->getDoctrine()->getRepository(Category::class)->findBy([], ['name' => 'asc']);
+
+        $categories = $paginator->paginate(
+            $donnees, // Requête contenant les données à paginer (ici nos catégories)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            12 // Nombre de résultats par page
+        );
+
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categories,
         ]);
     }
+
     /**
      * @Route("/{category}", name="category_show", methods={"GET"})
      */

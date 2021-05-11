@@ -4,9 +4,22 @@
 {% endblock %}
 
 {% block body %}
-	<h1>CrÈer un nouvel article</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('article_index')}}">Articles</a>
+    </li>
+    <li class="breadcrumb-item active">Cr√©ation</li>
+</ol>
+
+
+	<h1>Cr√©ation d'un article</h1>
 
 	{{ include('article/_form.html.twig') }}
 
-	<a href="{{ path('article_index') }}">Retour ‡ la liste</a>
+	<a href="{{ path('article_index') }}">retour</a>
+
+
 {% endblock %}
