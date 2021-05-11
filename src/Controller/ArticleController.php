@@ -196,4 +196,17 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('article_index');
     }
+
+    /**
+     * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
+     */
+    public function unvalidatedArticles() :Response
+    {
+
+        // récupérer toutes les currentversions non validées
+            // récupérer tous mes articles
+            // pour chaque article, récupérer mes currentversions
+            // pour chaque currentversion, récupérer les non validées
+        // renvoyer une vue qui aura les currentversions à valider
+    }
 }

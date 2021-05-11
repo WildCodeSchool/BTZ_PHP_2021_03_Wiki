@@ -91,4 +91,17 @@ class VersionController extends AbstractController
 
         return $this->redirectToRoute('version_index');
     }
+
+    /**
+     * @Route("/validation/{id}", name="version_validation", methods={"POST"})
+     */
+    public function manageValidation(Request $request, Version $version): Response
+    {
+        if ($version->getIsValidated()) {
+            $version->setIsValidated(false);
+        } else {
+            $version->setIsValidated(true);
+        }
+        return $this->redirectToRoute('version_index');
+    }
 }
