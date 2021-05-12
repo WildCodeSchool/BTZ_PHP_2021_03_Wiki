@@ -1,23 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Enregistrement {% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+{% for flashError in app.flashes('verify_email_error') %}
+<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Enregistrement</li>
+</ol>
 
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-         {{ form_row(registrationForm.lastname) }}
-          {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+<h1>Enregistrement</h1>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{{ form_start(registrationForm) }}
+{{ form_row(registrationForm.lastname) }}
+{{ form_row(registrationForm.firstname) }}
+
+{{ form_row(registrationForm.email) }}
+{{ form_row(registrationForm.plainPassword) }}
+{{ form_row(registrationForm.agreeTerms) }}
+
+<button type="submit" class="btn btn-primary">S'enregistrer</button>
+{{ form_end(registrationForm) }}
 {% endblock %}
