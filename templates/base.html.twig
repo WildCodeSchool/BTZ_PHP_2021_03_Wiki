@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="icon" type="image/png" alt="logo" href="{{ asset('build/images/favicon.png') }}"/>
-		<title>
-			{% block title %}Wiki AUDAP
-			{% endblock %}
-		</title>
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" type="image/png" alt="logo" href="{{ asset('build/images/favicon.png') }}" />
+	<title>
+		{% block title %}Wiki AUDAP
 		{% endblock %}
-	</head>
-	<body class="sb-nav-fixed">
-		{% include "_topnav.html.twig" %}
-		<div id="layoutSidenav">
-			<div id="layoutSidenav_nav">
-				{% include "_sidenav.html.twig" %}
-			</div>
-			<div id="layoutSidenav_content">
-				<main>
-					<section class="py-5">
-						<div
-							class="container-fluid">
-							<!-- Page Content-->
-							{% block body %}{% endblock %}
-						</div>
-					</div>
-				</main>
-			</div>
+	</title>
+	{% block stylesheets %}
+	{{ encore_entry_link_tags('app') }}
+	{% endblock %}
+</head>
+
+<body class="sb-nav-fixed">
+	{% include "_topnav.html.twig" %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_nav">
+			{% include "_sidenav.html.twig" %}
 		</div>
-		<!-- Footer-->
-		<footer class="py-4 bg-dark">
-			<div class="container">
-				<div class="d-flex align-items-center justify-content-between small">
-					<div class="text-muted">Copyright &copy; Audap Wiki 2021</div>
-					<div>
-						<a href="#">Privacy Policy</a>
-						<a href="#">Terms &amp; Conditions</a>
+		<div id="layoutSidenav_content">
+
+			{# Displays once any message generated in the current session as flash messages #}
+			{% for message in app.flashes('success') %}
+			<div class="alert alert-success">{{message}}</div>
+			{% endfor %}
+
+			<main>
+				<section class="py-5">
+					<div class="container-fluid">
+						<!-- Page Content-->
+						{% block body %}{% endblock %}
 					</div>
+		</div>
+		</main>
+	</div>
+	</div>
+	<!-- Footer-->
+	<footer class="py-4 bg-dark">
+		<div class="container">
+			<div class="d-flex align-items-center justify-content-between small">
+				<div class="text-muted">Copyright &copy; Audap Wiki 2021</div>
+				<div>
+					<a href="#">Privacy Policy</a>
+					<a href="#">Terms &amp; Conditions</a>
 				</div>
 			</div>
-		</footer>
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
-	</body>
+		</div>
+	</footer>
+	{% block javascripts %}
+	{{ encore_entry_script_tags('app') }}
+	{% endblock %}
+</body>
+
 </html>
