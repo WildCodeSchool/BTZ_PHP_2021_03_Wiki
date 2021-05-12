@@ -19,7 +19,7 @@
                 <th>Rôle</th>
                 <th>Prénom</th>
                 <th>Nom</th>
-                <th>Ville</th>
+                <th>Structure</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,7 +27,17 @@
         {% for user in users %}
            <tr>
                 <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur
+                        {% elseif role == "ROLE_EDITOR" %}
+                            Editeur
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.cityAgency }}</td>
