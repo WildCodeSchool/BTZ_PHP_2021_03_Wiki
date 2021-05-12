@@ -46,36 +46,16 @@
 							{% endif %}
 						{% endfor %}
 					</td>					
-					<td>{{ user.cityAgency }}</td>
+					<td>{{ user.structure }}</td>
 					<td>
 						{{ form_start(forms[user.id]) }}
 						{{ form_widget(forms[user.id]) }}
 						<button class="btn" name="id" value={{user.id}}>{{ button_label|default('Enregistrer') }}</button>
 						{{ form_end(forms[user.id]) }}
 					</td>
-					{# <td><a href="{{ path('user_edit', {'id': user.id}) }}">Valider</a></td> #}
-
-
-				{# {% if user.validated is same as(true) %}
-												                <td>{{ "validé" }}</td>
-												                {% else %}
-												                <td>{{ "en attente" }}</td>                                
-												                {% endif %}
-												                 #}
-
-					{# <td>
-															                    <a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
-															                    <a href="{{ path('user_delete', {'id': user.id}) }}">Supprimer</a>
-															                    {% include "user/_delete_form.html.twig" %}
-															                </td> #}
 				</tr>
-				{# {% else %}
-												            <tr>
-												                <td colspan="8">no records found</td>
-												            </tr> #}
 			{% endfor %}
 		</tbody>
 	</table>
 
-	{# <a href="{{ path('user_new') }}">Create new</a> #}
 {% endblock %}
