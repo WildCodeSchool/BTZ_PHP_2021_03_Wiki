@@ -54,8 +54,8 @@ class UserType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Nom'
             ])
-            ->add('cityAgency', TextType::class, [
-                'label' => 'Ville'
+            ->add('structure', TextType::class, [
+                'label' => 'Structure'
             ]);
     }
 

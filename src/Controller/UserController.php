@@ -110,7 +110,7 @@ class UserController extends AbstractController
     /**
      * @Route("/edit/{id}", requirements={"id"="\d+"}, name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, User $user): Response
+    public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder, User $user): Response
     {
         //Create a custom form without the password field (to keep the last untouched)
         //The rest of fields are the same as in UserType
@@ -128,20 +128,13 @@ class UserController extends AbstractController
         ])
         ->add('firstname')
         ->add('lastname')
-        ->add('cityAgency')
+        ->add('structure')
         ->add('validated')
         ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $encodedPassword = $passwordEncoder->encodePassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
-
-            $user->setPassword($encodedPassword);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
@@ -153,7 +146,7 @@ class UserController extends AbstractController
         ]);
     }
   
-      /**
+    /**
      * @Route("/delete/{id}/", requirements={"id"="\d+"}, name="user_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user): Response
@@ -166,5 +159,4 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_index');
     }
-
 }

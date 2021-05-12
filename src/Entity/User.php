@@ -61,7 +61,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $cityAgency;
+    private $structure;
 
     /**
      * @ORM\Column(type="boolean")
@@ -242,14 +242,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCityAgency(): ?string
+    public function getStructure(): ?string
     {
-        return $this->cityAgency;
+        return $this->structure;
     }
 
-    public function setCityAgency(?string $cityAgency): self
+    public function setStructure(?string $structure): self
     {
-        $this->cityAgency = $cityAgency;
+        $this->structure = $structure;
 
         return $this;
     }
