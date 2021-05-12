@@ -51,8 +51,15 @@ class UserType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom'
             ])
+
+            // last name can't be empty
             ->add('lastname', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un nom',
+                    ]),
+                ]
             ])
             ->add('cityAgency', TextType::class, [
                 'label' => 'Ville'

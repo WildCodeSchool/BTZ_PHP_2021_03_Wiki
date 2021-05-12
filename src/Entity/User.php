@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé par un collaborateur du Wiki")
+ * @UniqueEntity(fields={"email"}, message="Ce mot de passe est déjà utilisé par un collaborateur du Wiki")
  */
 class User implements UserInterface
 {
@@ -54,7 +54,7 @@ class User implements UserInterface
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $lastname;
 
