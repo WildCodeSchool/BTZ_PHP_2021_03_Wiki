@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 class UserController extends AbstractController
 {
 
-  
+
 
     /**
      * @Route("/", name="user_index", methods={"GET"})
@@ -38,12 +38,12 @@ class UserController extends AbstractController
     {
         //If there's something in $_POST, we update the given user (id)
         if (isset($_POST) && !empty($_POST)) {
-            $user = $userRepository->findOneBy(['id'=>$_POST['id']]);
+            $user = $userRepository->findOneBy(['id' => $_POST['id']]);
             $user->setValidated($_POST['form']['validated']);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('user_validation');
         }
-        
+
         $users = $userRepository->findBy(['validated' => 0]);  //Within the DB, '0' means 'false'
 
         $forms = array();
@@ -51,18 +51,18 @@ class UserController extends AbstractController
         foreach ($users as $user) {
             //Create a form for each user and keep its ID as key
             $forms[$user->getId()] = $this->createFormBuilder($user)
-            ->add('validated')
-            ->getForm()
-            ->handleRequest($request)
-            ->createView();
+                ->add('validated')
+                ->getForm()
+                ->handleRequest($request)
+                ->createView();
         }
 
         return $this->render(
             'user/validation.html.twig',
             [
-            'users' => $users,
-            'forms' => $forms,
-        ],
+                'users' => $users,
+                'forms' => $forms,
+            ],
         );
     }
 
@@ -131,7 +131,6 @@ class UserController extends AbstractController
         ->add('structure')
         ->add('validated')
         ->getForm();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -145,13 +144,13 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-  
+
     /**
      * @Route("/delete/{id}/", requirements={"id"="\d+"}, name="user_delete", methods={"POST"})
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
