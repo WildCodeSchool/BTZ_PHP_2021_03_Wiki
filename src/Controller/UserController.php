@@ -112,6 +112,10 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder, User $user): Response
     {
+        //Get the highest role user
+        $userRoles = $user->getRoles();
+        //dd($userRoles);
+
         //Create a custom form without the password field (to keep the last untouched)
         //The rest of fields are the same as in UserType
         $form = $this->createFormBuilder($user)
@@ -122,10 +126,11 @@ class UserController extends AbstractController
                 'Moderateur' => 'ROLE_MODERATOR',
                 'Administrateur' => 'ROLE_ADMIN'
             ],
-            'expanded' => true,
-            'multiple' => true ,
-            'label' => 'Rôles'
+            'expanded' => false,
+            'multiple' => false,
+            'label' => 'Rôles',
         ])
+
         ->add('firstname')
         ->add('lastname')
         ->add('structure')

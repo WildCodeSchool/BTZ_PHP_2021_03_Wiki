@@ -29,12 +29,12 @@
                 <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
                 <td>
                     {% for role in user.roles %}
-                        {% if role == "ROLE_USER" %}
-                            Utilisateur
-                        {% elseif role == "ROLE_EDITOR" %}
-                            Editeur
-                        {% elseif role == "ROLE_ADMIN" %}
+                        {% if role == "ROLE_ADMIN" %}
                             Administrateur
+                        {% elseif role == "ROLE_MODERATOR" %}
+                            Modérateur
+                        {% elseif role == "ROLE_USER" %}
+                            Utilisateur
                         {% endif %}
                     {% endfor %}
                 </td>
