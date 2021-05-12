@@ -23,7 +23,7 @@
 				<th>Prénom</th>
 				<th>Email</th>
 				<th>Roles</th>
-				<th>Ville</th>
+				<th>Structure</th>
 				<th>Valider</th>
 			</tr>
 		</thead>
@@ -35,7 +35,17 @@
 					<td>{{ user.lastname }}</td>
 					<td>{{ user.firstname }}</td>
 					<td>{{ user.email }}</td>
-					<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+					<td>
+						{% for role in user.roles %}
+							{% if role == "ROLE_USER" %}
+								Utilisateur
+							{% elseif role == "ROLE_EDITOR" %}
+								Editeur
+							{% elseif role == "ROLE_ADMIN" %}
+								Administrateur
+							{% endif %}
+						{% endfor %}
+					</td>					
 					<td>{{ user.cityAgency }}</td>
 					<td>
 						{{ form_start(forms[user.id]) }}
