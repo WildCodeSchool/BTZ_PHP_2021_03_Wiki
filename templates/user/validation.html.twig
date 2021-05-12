@@ -1,61 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Utilisateurs en attente de validation
-{% endblock %}
+{% block title %}Validation Utilisateurs{% endblock %}
 
 {% block body %}
-	<!-- Page Heading/Breadcrumbs-->
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">
-			<a href="{{ path('home') }}">Accueil</a>
-		</li>
-		<li class="breadcrumb-item">
-			<a href="{{ path('user_index') }}">Utilisateurs</a>
-		</li>
-		<li class="breadcrumb-item active">En attente de validation</li>
-	</ol>
-	<h1>Utilisateurs en attente de validation</h1>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Nom</th>
-				<th>Prénom</th>
-				<th>Email</th>
-				<th>Roles</th>
-				<th>Structure</th>
-				<th>Valider</th>
-			</tr>
-		</thead>
-		<tbody>
-
-			{% for user in users %}
-
-				<tr>
-					<td>{{ user.lastname }}</td>
-					<td>{{ user.firstname }}</td>
-					<td>{{ user.email }}</td>
-					<td>
-						{% for role in user.roles %}
-							{% if role == "ROLE_USER" %}
-								Utilisateur
-							{% elseif role == "ROLE_EDITOR" %}
-								Editeur
-							{% elseif role == "ROLE_ADMIN" %}
-								Administrateur
-							{% endif %}
-						{% endfor %}
-					</td>					
-					<td>{{ user.structure }}</td>
-					<td>
-						{{ form_start(forms[user.id]) }}
-						{{ form_widget(forms[user.id]) }}
-						<button class="btn" name="id" value={{user.id}}>{{ button_label|default('Enregistrer') }}</button>
-						{{ form_end(forms[user.id]) }}
-					</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Validation utilisateurs</li>
+</ol>
+    <h1>Liste des utilisateurs en attente de validation</h1>
+    {# <a class="btn btn-success mb-3" href="{{ path('user_new') }}">Créer un utilisateur</a> #}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Rôle</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Structure</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+           <tr>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
+                <td>
+                    {% for role in user.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur
+                        {% elseif role == "ROLE_MODERATEUR" %}
+                            Moderateur
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.structure }}</td>
+                <td class="d-flex justify-content-around">
+					{{ include('user/_validate_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">Il n'y a pas d'utilisateur en attente de validation</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
