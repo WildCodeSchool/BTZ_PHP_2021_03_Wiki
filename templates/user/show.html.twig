@@ -1,43 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}
+	{{user.firstname}}
+	{{user.lastname}}
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('user_index') }}">Utilisateurs</a>
+		</li>
+		<li class="breadcrumb-item active">{{user.firstname}}
+			{{user.lastname}}</li>
+	</ol>
+	<h1>{{user.firstname}}
+		{{user.lastname}}</h1>
 
-    <table class="table">
-        <tbody>
+	<table class="table">
+		<tbody>
 
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Rôle</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mot de passe</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Prénom</th>
-                <td>{{ user.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ user.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ user.cityAgency }}</td>
-            </tr>
-        </tbody>
-    </table>
+			<tr>
+				<th>Email</th>
+				<td>{{ user.email }}</td>
+			</tr>
+			<tr>
+				<th>Rôle</th>
+				<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+			</tr>
+			<tr>
+				<th>Prénom</th>
+				<td>{{ user.firstname }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ user.lastname }}</td>
+			</tr>
+			<tr>
+				<th>Structure</th>
+				<td>{{ user.cityAgency }}</td>
+			</tr>
+		</tbody>
+	</table>
 
-    <a href="{{ path('user_index') }}">retour</a>
+	<div class="d-flex">
+		<a class="btn btn-primary mr-3" href="{{ path('user_edit', {'id': user.id}) }}">éditer</a>
 
-    <a href="{{ path('user_edit', {'id': user.id}) }}">éditer</a>
+		{{ include('user/_delete_form.html.twig') }}
+	</div>
+	<a href="{{ path('user_index') }}">retour</a>
 
-    {{ include('user/_delete_form.html.twig') }}
 {% endblock %}
