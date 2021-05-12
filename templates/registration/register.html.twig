@@ -14,7 +14,11 @@
 </ol>
 
 
-<h1>Enregistrement</h1>
+<h1>Formulaire d'enregistrement</h1>
+<p>
+    Merci de compléter ce formulaire. </br>
+    Nous vous enverrons un email avec un lien de connexion pour vous enregistrer dans le Wiki.
+</p>
 
 {{ form_start(registrationForm) }}
 {{ form_row(registrationForm.lastname) }}
@@ -24,7 +28,7 @@
 {{ form_row(registrationForm.plainPassword) }}
 {{ form_row(registrationForm.agreeTerms) }}
 
-<button type="submit" class="btn btn-primary">S'enregistrer</button>
+<button type="submit" class="btn btn-primary">soumettre</button>
 {{ form_end(registrationForm) }}
 
 <div> <a href="{{ path('home') }}">retour</a>
