@@ -36,34 +36,23 @@ class UserController extends AbstractController
      */
     public function listValidation(Request $request, UserRepository $userRepository): Response
     {
-        //If there's something in $_POST, we update the given user (id)
-        if (isset($_POST) && !empty($_POST)) {
-            $user = $userRepository->findOneBy(['id' => $_POST['id']]);
-            $user->setValidated($_POST['form']['validated']);
+        return $this->render('user/validation.html.twig', [
+            'users' => $userRepository->findBy(['validated' => 0]),  //Within the DB, '0' means 'false'
+        ]);
+    }
+
+    /**
+     * @Route("/validate/{id}/", requirements={"id"="\d+"}, name="user_validate", methods={"GET","POST"})
+     */
+    public function validate(Request $request, User $user): Response
+    {
+        if ($this->isCsrfTokenValid('validate' . $user->getId(), $request->request->get('_token'))) {
+            $user->setValidated(true);
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('user_validation');
         }
 
-        $users = $userRepository->findBy(['validated' => 0]);  //Within the DB, '0' means 'false'
-
-        $forms = array();
-
-        foreach ($users as $user) {
-            //Create a form for each user and keep its ID as key
-            $forms[$user->getId()] = $this->createFormBuilder($user)
-                ->add('validated')
-                ->getForm()
-                ->handleRequest($request)
-                ->createView();
-        }
-
-        return $this->render(
-            'user/validation.html.twig',
-            [
-                'users' => $users,
-                'forms' => $forms,
-            ],
-        );
+        return $this->redirectToRoute('user_index');
     }
 
     /**
