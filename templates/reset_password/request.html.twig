@@ -14,7 +14,7 @@
 </h1>
 
 <p>
-     Veuillez entrer un email. </br>
+     Veuillez entrer votre email de connexion au Wiki. </br>
      Nous vous enverrons un lien pour réinitialiser votre mot de passe.
     </p> 
 
@@ -26,7 +26,7 @@
 {{ form_start(requestForm) }}
 {{ form_row(requestForm.email) }}
 
+<a href="{{ path('home')}}" class="btn btn-primary">envoyer</a>
 
-<button class="btn btn-primary">envoyer</button>
 {{ form_end(requestForm) }}
 {% endblock %}
