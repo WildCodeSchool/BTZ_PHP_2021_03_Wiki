@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset your password{% endblock %}
+{% block title %}Reset mot de passe{% endblock %}
 
 {% block body %}
-    <h1>Reset your password</h1>
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+	<li class="breadcrumb-item">
+		<a href="{{ path('home') }}">Accueil</a>
+	</li>
+	<li class="breadcrumb-item active">Réinitialisation</li>
+</ol>
+
+    <h1>Réinitialisation de votre mot de passe</h1>
 
     {{ form_start(resetForm) }}
         {{ form_row(resetForm.plainPassword) }}
-        <button class="btn btn-primary">Reset password</button>
+        <button class="btn btn-primary">envoyer</button>
     {{ form_end(resetForm) }}
 {% endblock %}
