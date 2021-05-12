@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les articles
+{% block title %}Resultat de recherche
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,8 @@
 		</li>
 		<li class="breadcrumb-item active">Articles</li>
 	</ol>
-	
+            {{ form(searchForm)  }}
+
 	<h1 class="mt-4 mb-3">
 		Tous les articles
 	</h1>
