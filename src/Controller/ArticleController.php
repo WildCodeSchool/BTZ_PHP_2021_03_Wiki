@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Version;
 use App\Form\ArticleType;
+use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,7 @@ use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Pagin
  */
 class ArticleController extends AbstractController
 {
+
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
@@ -103,7 +105,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/versions", name="article_versions", methods={"GET"})
+     * @Route("/{id}/versions", name="article_versions",requirements={"id":"\d+"}, methods={"GET"})
      */
     public function showArticleVersions(Article $article, VersionRepository $versionRepository): Response
     {
@@ -115,7 +117,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="article_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
      */
     public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
     {
@@ -166,7 +168,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
+     * @Route("/{id}/{version_id?current}", name="article_show", requirements={"id":"\d+"}, methods={"GET"})
      */
     public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
     {
@@ -184,7 +186,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("/{id}", name="article_delete", requirements={"id":"\d+"}, methods={"DELETE"})
      */
     public function delete(Request $request, Article $article): Response
     {
@@ -198,15 +200,26 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
-     */
-    public function unvalidatedArticles() :Response
+        * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
+        */
+    public function unvalidatedArticles(VersionRepository $versionRepository, ArticleRepository $articleRepository) :Response
     {
+        $currentVersions = [];
+        $articles = $articleRepository->findAll();
 
-        // récupérer toutes les currentversions non validées
-            // récupérer tous mes articles
-            // pour chaque article, récupérer mes currentversions
-            // pour chaque currentversion, récupérer les non validées
-        // renvoyer une vue qui aura les currentversions à valider
+        foreach ($articles as $article) {
+            $idCurrentVersion = $article->getCurrentVersion();
+            if (!empty($idCurrentVersion)) {
+                $currentVersion = $versionRepository->find($idCurrentVersion);
+                
+                if ($currentVersion && !$currentVersion->getIsValidated()) {
+                    $currentVersions[]=$currentVersion;
+                }
+            }
+        }
+        dd($currentVersions);
+        // pour chaque article, récupérer mes currentversions
+                    // pour chaque currentversion, récupérer les non validées
+                // renvoyer une vue qui aura les currentversions à valider
     }
 }
