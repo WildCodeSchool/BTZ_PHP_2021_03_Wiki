@@ -244,7 +244,7 @@ class ArticleController extends AbstractController
     /**
         * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
         */
-    public function unvalidatedArticles(VersionRepository $versionRepository, ArticleRepository $articleRepository) :Response
+    public function unvalidatedArticles(VersionRepository $versionRepository, ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request) :Response
     {
         $currentVersions = [];
         $articles = $articleRepository->findAll();
@@ -259,9 +259,15 @@ class ArticleController extends AbstractController
                 }
             }
         }
-        dd($currentVersions);
-        // pour chaque article, récupérer mes currentversions
-                    // pour chaque currentversion, récupérer les non validées
-                // renvoyer une vue qui aura les currentversions à valider
+
+        $currentVersionsPaginated = $paginator->paginate(
+            $currentVersions, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            12 // Nombre de résultats par page
+        );
+
+        return $this->render('article/validate_articles.html.twig', [
+            'currentVersions' => $currentVersionsPaginated
+        ]);
     }
 }
