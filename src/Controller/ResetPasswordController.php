@@ -152,14 +152,13 @@ class ResetPasswordController extends AbstractController
             //     'There was a problem handling your password reset request - %s',
             //     $e->getReason()
             // ));
-
             return $this->redirectToRoute('app_check_email');
         }
 
         $email = (new TemplatedEmail())
             ->from(new Address('from@example.com', '"Mailtrap"'))
             ->to($user->getEmail())
-            ->subject('Your password reset request')
+            ->subject('AUDAP Wiki - réinitialisation du mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,

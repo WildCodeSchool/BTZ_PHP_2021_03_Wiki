@@ -13,20 +13,17 @@
 <h1 class="mt-4 mb-3">Demande de réinitialisation du mot de passe
 </h1>
 
-<p>
-     Veuillez entrer votre email de connexion au Wiki. </br>
-     Nous vous enverrons un lien pour réinitialiser votre mot de passe.
-    </p> 
-
 {% for flashError in app.flashes('reset_password_error') %}
 <div class="alert alert-danger" role="alert">{{ flashError }}</div>
 {% endfor %}
 
 
 {{ form_start(requestForm) }}
-{{ form_row(requestForm.email) }}
+{{ form_row(requestForm.email,{
+    label: 'Entrez votre adresse e-mail et nous vous enverrons un
+        lien pour réinitialiser votre mot de passe.'
+}) }}
 
-<a href="{{ path('home')}}" class="btn btn-primary">envoyer</a>
-
+<button class="btn btn-primary">réinitialiser</button>
 {{ form_end(requestForm) }}
 {% endblock %}
