@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé par un collaborateur du Wiki")
  */
 class User implements UserInterface
 {
@@ -61,12 +61,18 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $cityAgency;
+    private $structure;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $validated;
 
     public function __construct()
     {
         $this->versions = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->setValidated(false); //New user is by default not validated
     }
 
     public function getId(): ?int
@@ -103,11 +109,11 @@ class User implements UserInterface
     {
         $roles = $this->roles;
        
-       // if (count($roles) === 0){
-          //  $roles[] = 'ROLE_USER';
+        // if (count($roles) === 0){
+        //  $roles[] = 'ROLE_USER';
         //}
 
-       // guarantee every user at least has ROLE_USER
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -236,14 +242,26 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getCityAgency(): ?string
+    public function getStructure(): ?string
     {
-        return $this->cityAgency;
+        return $this->structure;
     }
 
-    public function setCityAgency(?string $cityAgency): self
+    public function setStructure(?string $structure): self
     {
-        $this->cityAgency = $cityAgency;
+        $this->structure = $structure;
+
+        return $this;
+    }
+
+    public function getValidated(): ?bool
+    {
+        return $this->validated;
+    }
+
+    public function setValidated(bool $validated): self
+    {
+        $this->validated = $validated;
 
         return $this;
     }

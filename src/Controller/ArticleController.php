@@ -5,14 +5,16 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\Version;
 use App\Form\ArticleType;
+use App\Form\RechercheType;
+use Symfony\Component\Mime\Email;
 use App\Repository\ArticleRepository;
 use App\Repository\VersionRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 
 /**
@@ -40,7 +42,47 @@ class ArticleController extends AbstractController
             'articles' => $articles,
         ]);
     }
-
+    /**
+        * @Route("/recherche", name="search")
+        */
+    public function recherche(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator)
+    {
+        $error = $authenticationUtils->getLastAuthenticationError();
+ 
+        $lastUsername = $authenticationUtils->getLastUsername();
+ 
+        $searchForm = $this->createForm(RechercheType::class);
+        $searchForm->handleRequest($request);
+ 
+        $donnees = $repo->findAll();
+ 
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $title = $searchForm->getData()->getTitle();
+ 
+            $donnees = $repo->search($title);
+ 
+            if ($donnees == null) {
+                $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
+            }
+        }
+ 
+        // Paginate the results of the query
+        $articles = $paginator->paginate(
+        // Doctrine Query, not results
+        $donnees,
+        // Define the page parameter
+        $request->query->getInt('page', 1),
+        // Items per page
+        4
+        );
+ 
+        return $this->render('article/search.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'articles' => $articles,
+            'searchForm' => $searchForm->createView()
+        ]);
+    }
 
 
     /**

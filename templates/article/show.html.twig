@@ -40,10 +40,10 @@
 					{{article.getCreator.firstname}}
 					{{article.getCreator.lastname}}</small>
 				{% for category in article.categories %}
-					<span class="badge badge-info">{{category.name}}</span>
+					<a href="{{ path('category_show', {'category': category.id}) }}" class="badge badge-info">{{category.name}}</a>
 				{% endfor %}
 				{% for tag in article.tags %}
-					<span class="badge badge-dark">{{tag.name}}</span>
+					<a href="{{ path('tag_show', {'tag': tag.id}) }}" class="badge badge-dark">{{tag.name}}</a>
 				{% endfor %}
 
 				<p class="pt-2">{{ article.description }}</p>
@@ -64,10 +64,6 @@
 					</ul>
 					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
 				</div>
-<<<<<<< HEAD
-				<div>{{version.content|raw}}</div>
-=======
->>>>>>> 9e32a4f6375771a35e80b4f62a20fb4500486b66
 			</div>
 		</div>
 		<div class="mt-5">{{version.content|raw}}</div>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les articles
+{% block title %}Resultat de recherche
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,8 @@
 		</li>
 		<li class="breadcrumb-item active">Articles</li>
 	</ol>
-	
+            {{ form(searchForm)  }}
+
 	<h1 class="mt-4 mb-3">
 		Tous les articles
 	</h1>
@@ -24,16 +25,7 @@
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
-						<small>{{article.getCreator.firstname}}
-						{{article.getCreator.lastname}}</small>
-						{% for category in article.categories %}
-							<a href="{{ path('category_show', {'category': category.id}) }}" class="badge badge-info">{{category.name}}</a>
-						{% endfor %}
-						{% for tag in article.tags %}
-							<a href="{{ path('tag_show', {'tag': tag.id}) }}" class="badge badge-dark">{{tag.name}}</a>
-						{% endfor %}
-						<p class="card-text pb-3 pt-3">{{ article.description|slice(0,100) }}</p>
-							
+						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
 						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
 					</div>
 				</div>
