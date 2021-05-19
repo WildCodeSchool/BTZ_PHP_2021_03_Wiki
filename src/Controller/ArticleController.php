@@ -17,12 +17,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
 
-
 /**
  * @Route("/article")
  */
 class ArticleController extends AbstractController
 {
+
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
@@ -42,11 +42,11 @@ class ArticleController extends AbstractController
             'articles' => $articles,
         ]);
     }
- /**
-     * @Route("/recherche", name="search")
-     */
-    public function recherche(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator) {
- 
+    /**
+        * @Route("/recherche", name="search")
+        */
+    public function recherche(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator)
+    {
         $error = $authenticationUtils->getLastAuthenticationError();
  
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -57,7 +57,6 @@ class ArticleController extends AbstractController
         $donnees = $repo->findAll();
  
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
- 
             $title = $searchForm->getData()->getTitle();
  
             $donnees = $repo->search($title);
@@ -65,20 +64,19 @@ class ArticleController extends AbstractController
             if ($donnees == null) {
                 $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
             }
+        }
  
-    }
- 
-     // Paginate the results of the query
-     $articles = $paginator->paginate(
+        // Paginate the results of the query
+        $articles = $paginator->paginate(
         // Doctrine Query, not results
         $donnees,
         // Define the page parameter
         $request->query->getInt('page', 1),
         // Items per page
         4
-    );
+        );
  
-        return $this->render('article/search.html.twig',[
+        return $this->render('article/search.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
             'articles' => $articles,
@@ -149,7 +147,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/versions", name="article_versions", methods={"GET"})
+     * @Route("/{id}/versions", name="article_versions",requirements={"id":"\d+"}, methods={"GET"})
      */
     public function showArticleVersions(Article $article, VersionRepository $versionRepository): Response
     {
@@ -161,7 +159,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="article_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="article_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
      */
     public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
     {
@@ -212,7 +210,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/{version_id?current}", name="article_show", methods={"GET"})
+     * @Route("/{id}/{version_id?current}", name="article_show", requirements={"id":"\d+"}, methods={"GET"})
      */
     public function show(Article $article, VersionRepository $versionRepository, String $version_id): Response
     {
@@ -230,7 +228,7 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="article_delete", methods={"DELETE"})
+     * @Route("/{id}", name="article_delete", requirements={"id":"\d+"}, methods={"DELETE"})
      */
     public function delete(Request $request, Article $article): Response
     {
@@ -241,5 +239,35 @@ class ArticleController extends AbstractController
         }
 
         return $this->redirectToRoute('article_index');
+    }
+
+    /**
+        * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
+        */
+    public function unvalidatedArticles(VersionRepository $versionRepository, ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request) :Response
+    {
+        $currentVersions = [];
+        $articles = $articleRepository->findAll();
+
+        foreach ($articles as $article) {
+            $idCurrentVersion = $article->getCurrentVersion();
+            if (!empty($idCurrentVersion)) {
+                $currentVersion = $versionRepository->find($idCurrentVersion);
+                
+                if ($currentVersion && !$currentVersion->getIsValidated()) {
+                    $currentVersions[]=$currentVersion;
+                }
+            }
+        }
+
+        $currentVersionsPaginated = $paginator->paginate(
+            $currentVersions, // Requête contenant les données à paginer (ici nos articles)
+            $request->query->getInt('page', 1), // Numéro de la page en cours, passé dans l'URL, 1 si aucune page
+            12 // Nombre de résultats par page
+        );
+
+        return $this->render('article/validate_articles.html.twig', [
+            'currentVersions' => $currentVersionsPaginated
+        ]);
     }
 }
