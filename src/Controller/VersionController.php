@@ -106,4 +106,16 @@ class VersionController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('unvalidated_articles');
     }
+
+    /**
+    * @Route("/publish/{id}", name="version_publish", methods={"GET"})
+    */
+    public function publishVersion(Version $version): Response
+    {
+        $article = $version->getArticle();
+        $article->setCurrentVersion($version->getId());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
+    }
 }
