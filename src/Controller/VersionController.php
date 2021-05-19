@@ -91,4 +91,19 @@ class VersionController extends AbstractController
 
         return $this->redirectToRoute('version_index');
     }
+
+    /**
+     * @Route("/validation/{id}", name="version_validation", methods={"GET"})
+     */
+    public function manageValidation(Version $version): Response
+    {
+        if ($version->getIsValidated()) {
+            $version->setIsValidated(false);
+        } else {
+            $version->setIsValidated(true);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return $this->redirectToRoute('unvalidated_articles');
+    }
 }

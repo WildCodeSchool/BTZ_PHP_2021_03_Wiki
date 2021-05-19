@@ -19,15 +19,15 @@
 	<div class="row">
 		{% if article.image %}
 			<div class="col-md-6"><img class="img-fluid" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{article.image}}"/></div>
-
 			<div class="col-md-6">
-			{% else %}
-				<div class="col-md-12">
-				{% endif %}
-				{% if article.isPublished == false %}
-					<div class="alert alert-warning" role="alert">En attente de validation</div>
-				{% endif %}
-
+		{% else %}
+			<div class="col-md-12">
+		{% endif %}
+					{% if version.isValidated %}
+					<span class="badge badge-success">Article validé</span>
+					{% else %}
+					<span class="badge badge-warning">Article en cours de validation</span>
+					{% endif %}
 				<div class="d-flex mt-2">
 					<h3>{{article.title}}</h3>
 					{% if app.user %}
@@ -35,10 +35,12 @@
 					{% endif %}
 				</div>
 
+				<div>
 				<small class="text-muted">{{version.modificationDate|date('d-m-Y') }}
 					-
 					{{article.getCreator.firstname}}
 					{{article.getCreator.lastname}}</small>
+				</div>
 				{% for category in article.categories %}
 					<a href="{{ path('category_show', {'category': category.id}) }}" class="badge badge-info">{{category.name}}</a>
 				{% endfor %}
