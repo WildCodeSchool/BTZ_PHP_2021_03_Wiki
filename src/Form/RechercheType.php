@@ -4,29 +4,19 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RechercheType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-           // ->add('image')
-            //->add('updatedAt')
-            ->add('title')
+           ->add('title', TextType::class , ['label' => 'Titre'])
            ->add('Chercher',SubmitType::class)
-         // ->add('description')
-           // ->add('picture')
-            //->add('is_published')
-           // ->add('is_deleted')
-            //->add('publication_date')
-            //->add('creation_date')
-           // ->add('currentVersion')
-            //->add('tags')
-            //->add('categories')
-            //->add('creator')
+       
         ;
     }
 
