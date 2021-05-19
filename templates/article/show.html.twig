@@ -65,6 +65,9 @@
 						{% endfor %}
 					</ul>
 					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
+					{% if article.currentVersion != version.id %}
+						<a href="{{ path('version_publish', {'id': version.id}) }}" class="btn btn-primary">Publier cette version</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
