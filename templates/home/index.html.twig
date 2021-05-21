@@ -9,16 +9,17 @@
 		<li class="breadcrumb-item active">Accueil</li>
 	</ol>
 	{% if monthlyArticle is not null %}
-		<h2>Article du mois</h2>
-		<div class="col-12">
-			<div class="card h-100">
-				<a href="{{ path('article_show', {'id': monthlyArticle.id}) }}"><img class="card-img-top" src="#" width="50px" alt=" "/></a>
-				<div class="card-body pb-5">
-					<h4 class="card-title">
-						<a href="{{ path('article_show', {'id': monthlyArticle.id}) }}">{{monthlyArticle.title}}</a>
-					</h4>
-					<p class="card-text pb-3">{{monthlyArticle.description}}</p>
-					<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': monthlyArticle.id}) }}">Lire la suite...</a>
+		<div class="card mb-3" style="max-width: 540px;">
+			<div class="row no-gutters">
+				<div class="col-md-4">
+					<img src="{{ vich_uploader_asset(monthlyArticle, 'imageFile') }}" class="card-img"/>
+				</div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<h5 class="card-title">{{monthlyArticle.title}}</h5>
+						<p class="card-text">{{monthlyArticle.description}}</p>
+						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': monthlyArticle.id}) }}">Lire la suite...</a>
+					</div>
 				</div>
 			</div>
 		</div>
