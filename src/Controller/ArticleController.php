@@ -42,10 +42,8 @@ class ArticleController extends AbstractController
             'articles' => $articles,
         ]);
     }
-    /**
-        * @Route("/recherche", name="search")
-        */
-    public function recherche(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator)
+
+/*     public function search(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
  
@@ -82,8 +80,35 @@ class ArticleController extends AbstractController
             'articles' => $articles,
             'searchForm' => $searchForm->createView()
         ]);
-    }
+    } */
 
+    /**
+    * @Route("/recherche", name="search")
+    */
+    public function search(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator)
+    {
+        $query = $request->query->get('search');
+
+        if (!empty($query)) {
+            $datas = $articleRepository->search($query);
+
+            // Paginate the results of the query
+            $articles = $paginator->paginate(
+            // Doctrine Query, not results
+            $datas,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            10
+            );
+
+            return $this->render('article/search.html.twig', [
+                'articles' => $articles,
+            ]);
+        }
+        
+        return $this->redirectToRoute('article_index');
+    }
 
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})

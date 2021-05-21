@@ -49,7 +49,7 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="version_show", methods={"GET"})
+     * @Route("/{id}", name="version_show", requirements={"id":"\d+"}, methods={"GET"})
      */
     public function show(Version $version): Response
     {
@@ -59,7 +59,7 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="version_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="version_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
      */
     public function edit(Request $request, Version $version): Response
     {
@@ -79,21 +79,23 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="version_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="version_delete",requirements={"id":"\d+"}, methods={"POST"})
      */
     public function delete(Request $request, Version $version): Response
     {
+        $article = $version->getArticle();
         if ($this->isCsrfTokenValid('delete'.$version->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($version);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('version_index');
+
+        return $this->redirectToRoute('article_versions', ['id'=>$article->getId()]);
     }
 
     /**
-     * @Route("/validation/{id}", name="version_validation", methods={"GET"})
+     * @Route("/validation/{id}", name="version_validation" ,requirements={"id":"\d+"}, methods={"GET"})
      */
     public function manageValidation(Version $version): Response
     {
@@ -108,7 +110,7 @@ class VersionController extends AbstractController
     }
 
     /**
-    * @Route("/publish/{id}", name="version_publish", methods={"GET"})
+    * @Route("/publish/{id}", name="version_publish", requirements={"id":"\d+"}, methods={"GET"})
     */
     public function publishVersion(Version $version): Response
     {
