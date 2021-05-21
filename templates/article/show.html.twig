@@ -41,6 +41,19 @@
 					{{article.getCreator.firstname}}
 					{{article.getCreator.lastname}}</small>
 				</div>
+				{# CONTRIBUTORS #}
+				<div>
+				<small class="text-muted">Contributeurs
+					:
+					{# {% for lastVersion in lastVersions %} #}
+						{% for i in 0..1 %}
+					{{lastVersions[i].getContributor.firstname}}
+					{{lastVersions[i].getContributor.lastname}}, 
+						{% endfor %}
+					{# {% endfor %} #}
+				</small>
+				</div>
+				{# /CONTRIBUTORS #}
 				{% for category in article.categories %}
 					<a href="{{ path('category_show', {'category': category.id}) }}" class="badge badge-info">{{category.name}}</a>
 				{% endfor %}
