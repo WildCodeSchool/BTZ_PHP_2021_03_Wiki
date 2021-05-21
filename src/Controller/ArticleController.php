@@ -136,6 +136,7 @@ class ArticleController extends AbstractController
                 ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
             $mailer->send($email);
+            $this -> addFlash('success', "Votre article est créé. Il est en attente de validation.");
 
             return $this->redirectToRoute('article_index');
         }
@@ -200,6 +201,8 @@ class ArticleController extends AbstractController
 
             $mailer->send($email);
 
+            $this -> addFlash('success', "Votre article est modifié. Il est en attente de validation.");
+
             return $this->redirectToRoute('article_index');
         }
 
@@ -236,6 +239,8 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+
+            $this -> addFlash('erreur', "Votre article a été supprimé.");
         }
 
         return $this->redirectToRoute('article_index');

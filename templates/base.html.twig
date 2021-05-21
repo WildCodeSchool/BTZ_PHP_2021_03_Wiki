@@ -26,6 +26,9 @@
 			{% for message in app.flashes('success') %}
 			<div class="alert alert-success">{{message}}</div>
 			{% endfor %}
+			{% for message in app.flashes('erreur') %}
+			<div class="alert alert-danger">{{message}}</div>
+			{% endfor %}
 
 			<main>
 				<section class="py-5">
