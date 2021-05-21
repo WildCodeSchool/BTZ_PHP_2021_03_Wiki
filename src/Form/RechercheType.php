@@ -14,10 +14,8 @@ class RechercheType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-           ->add('title', TextType::class , ['label' => 'Titre'])
-           ->add('Chercher',SubmitType::class)
-       
-        ;
+        ->add('title', TextType::class , ['label' => 'Titre'])
+        ->add('Chercher',SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
