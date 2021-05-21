@@ -45,12 +45,12 @@
 				<div>
 				<small class="text-muted">Contributeurs
 					:
-					{# {% for lastVersion in lastVersions %} #}
-						{% for i in 0..1 %}
-					{{lastVersions[i].getContributor.firstname}}
-					{{lastVersions[i].getContributor.lastname}}, 
+					{% if contributors|length < 3 %}
+						{% for contributor in contributors %}
+							{{contributor.firstname}}
+							{{contributor.lastname}}, 
 						{% endfor %}
-					{# {% endfor %} #}
+					{% endif %}
 				</small>
 				</div>
 				{# /CONTRIBUTORS #}
