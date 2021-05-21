@@ -16,9 +16,11 @@ class HomeController extends AbstractController
     {
         $allArticles = $articleRepository->findAll();
         $lastArticles = array_slice($allArticles, 0, 6);
+        $monthlyArticle = $articleRepository->findOneBy(['monthly_article' => true]);
 
         return $this->render('home/index.html.twig', [
             'lastArticles' => $lastArticles,
+            'monthlyArticle' =>$monthlyArticle
         ]);
     }
 }
