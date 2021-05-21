@@ -8,19 +8,21 @@
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item active">Accueil</li>
 	</ol>
-	<h2>Article du mois</h2>
-	<div class="col-12">
-		<div class="card h-100">
-			<a href="#"><img class="card-img-top" src="#" width="50px" alt=" "/></a>
-			<div class="card-body pb-5">
-				<h4 class="card-title">
-					<a href="#">Titre</a>
-				</h4>
-				<p class="card-text pb-3">Description</p>
-				<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="#">Lire la suite...</a>
+	{% if monthlyArticle is not null %}
+		<h2>Article du mois</h2>
+		<div class="col-12">
+			<div class="card h-100">
+				<a href="{{ path('article_show', {'id': monthlyArticle.id}) }}"><img class="card-img-top" src="#" width="50px" alt=" "/></a>
+				<div class="card-body pb-5">
+					<h4 class="card-title">
+						<a href="{{ path('article_show', {'id': monthlyArticle.id}) }}">{{monthlyArticle.title}}</a>
+					</h4>
+					<p class="card-text pb-3">{{monthlyArticle.description}}</p>
+					<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': monthlyArticle.id}) }}">Lire la suite...</a>
+				</div>
 			</div>
 		</div>
-	</div>
+	{% endif %}
 	<h2 class="mt-4 mb-3">
 		Les derniers articles
 	</h2>

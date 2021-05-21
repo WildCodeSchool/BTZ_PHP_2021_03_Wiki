@@ -42,11 +42,11 @@ class ArticleType extends AbstractType
         } else {
             $contentVersion = '';
         }
-        //dd($version);
 
         $builder
             ->add('title', TextType::class , ['label' => 'Nom'])
             ->add('description', TextareaType::class,['label' => 'Description'])
+            ->add('monthly_article', null, ['label' => 'Article du mois'])
             ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'])
             ->add('imageFile', VichImageType::class, ['required' => false, 'label' => 'Image'])
             ->add('tags', EntityType::class, [

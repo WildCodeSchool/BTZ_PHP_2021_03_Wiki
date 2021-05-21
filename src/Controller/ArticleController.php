@@ -125,10 +125,10 @@ class ArticleController extends AbstractController
             $currentUser = $this->getUser();
 
             //On hydrate l'article des données manquantes
-            $article->setCreator($currentUser);
-            $article->setIsPublished(false);
-            $article->setIsDeleted(false);
-            $article->setCreationDate(new \DateTime());
+            $article->setCreator($currentUser)
+            ->setIsPublished(false)
+            ->setIsDeleted(false)
+            ->setCreationDate(new \DateTime());
 
             //On créé une version (la première de l'article)
             $version = new Version();
@@ -186,24 +186,31 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/edit", name="article_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
      */
-    public function edit(Request $request, Article $article, MailerInterface $mailer, VersionRepository $versionRepository): Response
+    public function edit(Request $request, Article $article, MailerInterface $mailer, ArticleRepository $articleRepository): Response
     {
-        $currentVersion = $versionRepository->find($article->getCurrentVersion());
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //Si la case article du mois est cochée, on décoche la case de l'ancien article du mois s'il existe
+            if($article->getMonthlyArticle()){
+                $monthlyArticleOld = $articleRepository->findOneBy(['monthly_article' => true]);
+                if($monthlyArticleOld){
+                    $monthlyArticleOld->setMonthlyArticle(false);
+                }
+            }
+
             $currentUser = $this->getUser();
-            $article->setCreator($currentUser);
-            $article->setCreationDate(new \DateTime());
+            $article->setCreator($currentUser)
+            ->setCreationDate(new \DateTime());
 
             // créer une nouvelle version
             $version = new Version();
-            $version->setContent($form->get('content')->getData());
-            $version->setModificationDate(new \DateTime());
-            $version->setIsValidated(false);
-            $version->setContributor($currentUser);
-            $version->setArticle($article);
+            $version->setContent($form->get('content')->getData())
+            ->setModificationDate(new \DateTime())
+            ->setIsValidated(false)
+            ->setContributor($currentUser)
+            ->setArticle($article);
             $this->getDoctrine()->getManager()->persist($version);
             $this->getDoctrine()->getManager()->flush();
 
@@ -212,17 +219,11 @@ class ArticleController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-
             $email = (new Email())
-
                 ->from('from@example.com')
-
                 ->to('to@example.com')
-
                 ->subject('Un article vient d\'être modifié !')
-
                 ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
-
             $mailer->send($email);
 
             return $this->redirectToRoute('article_index');

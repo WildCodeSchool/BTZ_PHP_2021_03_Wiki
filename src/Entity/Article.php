@@ -101,6 +101,11 @@ class Article
      */
     private $currentVersion;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $monthly_article;
+
     public function __construct()
     {
         $this->versions = new ArrayCollection();
@@ -353,6 +358,18 @@ class Article
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getMonthlyArticle(): ?bool
+    {
+        return $this->monthly_article;
+    }
+
+    public function setMonthlyArticle(?bool $monthly_article): self
+    {
+        $this->monthly_article = $monthly_article;
 
         return $this;
     }
