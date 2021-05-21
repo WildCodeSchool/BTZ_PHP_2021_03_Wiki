@@ -49,7 +49,7 @@
 					Contributeurs :
 						{% for contributor in contributors %}
 							{{contributor.firstname}}
-							{{contributor.lastname}}, 
+							{{contributor.lastname}}.
 						{% endfor %}
 					{% else %}
 						<button class="text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,7 +62,6 @@
 						</div>
 					{% endif %}
 					</small>
-
 				</div>
 				{# /CONTRIBUTORS #}
 

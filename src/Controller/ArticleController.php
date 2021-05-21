@@ -224,20 +224,21 @@ class ArticleController extends AbstractController
         // Extract the three last versions, to display in the article page
         $lastVersions = array_slice($versions, 0, 3);
 
-        // Fetch the contributor's name of each version and
-        // keep only the ones different to the article's author (checked by user id)
+        // Fetch the contributor's id of each version and
+        // keep only the ones different to the article's author
         $contributors = [];
         foreach ($versions as $key => $version) {
             if ($article->getCreator()->getId() != $version->getContributor()->getId()) {
-                $contributors[] = [
-                    'firstname' => $version->getContributor()->getFirstname(),
-                    'lastname' => $version->getContributor()->getLastname(),
-                ];
+                $contributors[] = $version->getContributor();
             }
         }
 
-        // var_dump($contributors);
-        // exit;
+        //Remove duplicated entries
+        foreach ($contributors as $k=>$v) {
+            if (($kt=array_search($v, $contributors))!==false and $k!=$kt) {
+                unset($contributors[$kt]);
+            }
+        }
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
