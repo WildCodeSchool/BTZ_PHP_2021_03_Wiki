@@ -29,9 +29,6 @@
 					{% endif %}
 				<div class="d-flex mt-2">
 					<h3>{{article.title}}</h3>
-					{% if app.user %}
-						<a class="btn btn-primary ml-2" href="{{ path('article_edit', {'id': article.id}) }}">Modifier l'article</a>
-					{% endif %}
 				</div>
 
 				<div>
@@ -63,7 +60,7 @@
 
 						{% endfor %}
 					</ul>
-					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-primary">Toutes les versions</a>
+					<a href="{{ path('article_versions', {'id': article.id}) }}" class="btn btn-outline-primary btn-sm">Toutes les versions</a>
 					{% if article.currentVersion != version.id %}
 						<a href="{{ path('version_publish', {'id': version.id}) }}" class="btn btn-primary">Publier cette version</a>
 					{% endif %}
@@ -71,6 +68,9 @@
 			</div>
 		</div>
 		<div class="mt-5">{{version.content|raw}}</div>
+		{% if app.user %}
+			<a class="btn btn-outline-warning" href="{{ path('article_edit', {'id': article.id}) }}">Modifier l'article</a>
+		{% endif %}
 	</div>
 
 {% endblock %}
