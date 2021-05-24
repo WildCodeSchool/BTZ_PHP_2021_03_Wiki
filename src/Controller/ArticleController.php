@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request, MailerInterface $mailer): Response
+    public function new(Request $request, MailerInterface $mailer, ArticleRepository $articleRepository): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -123,6 +123,14 @@ class ArticleController extends AbstractController
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $entityManager = $this->getDoctrine()->getManager();
             $currentUser = $this->getUser();
+
+            if($article->getMonthlyArticle()){
+                $monthlyArticleOld = $articleRepository->findOneBy(['monthly_article' => true]);
+                if($monthlyArticleOld){
+                    $monthlyArticleOld->setMonthlyArticle(false);
+                }
+            }
+
 
             //On hydrate l'article des données manquantes
             $article->setCreator($currentUser)
