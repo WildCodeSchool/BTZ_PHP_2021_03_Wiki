@@ -19,7 +19,7 @@
 	{# Admin only #}
 	{% if is_granted('ROLE_ADMIN') %}
 		{{ include('category/_form.html.twig') }}
-		<a href="{{ path('category_index') }}">retour</a>
+		<a href="{{ path('category_index') }}">Retour</a>
 
 	{% else %}
 		<a>Permission refusée, contacter l'administrateur</a>
