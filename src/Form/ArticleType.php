@@ -48,7 +48,12 @@ class ArticleType extends AbstractType
             ->add('description', TextareaType::class,['label' => 'Description'])
             ->add('monthly_article', null, ['label' => 'Article du mois'])
             ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'])
-            ->add('imageFile', VichImageType::class, ['required' => false, 'label' => 'Image'])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false, 
+                'label' => 'Image',
+                'download_uri' => false,
+                'allow_delete' => false,
+                ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class, 
                 'label' => 'Mots clés',
