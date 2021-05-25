@@ -104,7 +104,7 @@ class UserController extends AbstractController
         //Create a custom form without the password field (to keep the last untouched)
         //The rest of fields are the same as in UserType
         $form = $this->createFormBuilder($user)
-        ->add('email')
+        ->add('email', null, ['label' => 'Email'])
         ->add('roles', ChoiceType::class, [
             'choices' => [
                 'Utilisateur' => 'ROLE_USER',
@@ -115,10 +115,10 @@ class UserController extends AbstractController
             'multiple' => true ,
             'label' => 'Rôles'
         ])
-        ->add('firstname')
-        ->add('lastname')
-        ->add('structure')
-        ->add('validated')
+        ->add('firstname', null, ['label' => 'Prénom'])
+        ->add('lastname', null, ['label' => 'Nom'])
+        ->add('structure', null, ['label' => 'Structure'])
+        ->add('validated', null, ['label' => 'Validé'])
         ->getForm();
         $form->handleRequest($request);
 
