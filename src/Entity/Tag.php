@@ -26,7 +26,7 @@ class Tag
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max="255",
-     * maxMessage="Le tag saisie {{ value }} est trop longue, il ne devrait pas dépasser {{ limit }} caractères")
+     * maxMessage="Le mot-clé saisi {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères")
      */
     private string $name;
 
