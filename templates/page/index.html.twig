@@ -8,30 +8,26 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>actions</th>
+                <th>Titre</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for page in pages %}
             <tr>
-                <td>{{ page.id }}</td>
                 <td>{{ page.title }}</td>
-                <td>{{ page.content }}</td>
                 <td>
-                    <a href="{{ path('page_show', {'id': page.id}) }}">show</a>
-                    <a href="{{ path('page_edit', {'id': page.id}) }}">edit</a>
+                    <a href="{{ path('page_show', {'title': page.title}) }}">Détails</a>
+                    <a href="{{ path('page_edit', {'title': page.title}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="4">Aucune page créée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('page_new') }}">Create new</a>
+    <a href="{{ path('page_new') }}">Créer une page</a>
 {% endblock %}

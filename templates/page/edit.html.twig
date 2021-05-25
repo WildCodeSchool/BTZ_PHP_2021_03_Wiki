@@ -6,6 +6,7 @@
     <h1>Édition de la page</h1>
 
     {{ include('page/_form.html.twig', {'button_label': 'Valider'}) }}
+    {{ include('page/_delete_form.html.twig') }}
 
     <a href="{{ path('page_show', {'title': page.title}) }}">Retour</a>
     

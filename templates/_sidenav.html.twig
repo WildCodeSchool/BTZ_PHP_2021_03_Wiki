@@ -87,6 +87,11 @@
 					<ul class="nav">
 						{{ render(controller('App\\Controller\\PageController::listPages')) }}
 					</ul>
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('page_index') }}">Gérer les pages</a>
+					</li>
+					{% endif %}
 				</div>
 			</div>
 			<div class="sb-sidenav-menu-heading">Ressources</div>
