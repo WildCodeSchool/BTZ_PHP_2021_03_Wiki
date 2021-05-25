@@ -49,7 +49,7 @@ class PageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="page_show", methods={"GET"})
+     * @Route("/{title}", name="page_show", methods={"GET"})
      */
     public function show(Page $page): Response
     {
@@ -59,7 +59,7 @@ class PageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="page_edit", methods={"GET","POST"})
+     * @Route("/{title}/edit", name="page_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Page $page): Response
     {
@@ -79,7 +79,7 @@ class PageController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="page_delete", methods={"POST"})
+     * @Route("/{title}", name="page_delete", methods={"POST"})
      */
     public function delete(Request $request, Page $page): Response
     {
@@ -90,5 +90,12 @@ class PageController extends AbstractController
         }
 
         return $this->redirectToRoute('page_index');
+    }
+
+    public function listPages(PageRepository $pageRepository): Response
+    {
+        return $this->render('page/_listPages.html.twig', [
+            'pages' => $pageRepository->findAll(),
+        ]);
     }
 }
