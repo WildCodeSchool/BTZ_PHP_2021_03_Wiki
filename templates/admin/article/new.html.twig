@@ -4,9 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Créer un nouvel article</h1>
+	<h1>Crï¿½er un nouvel article</h1>
 
 	{{ include('article/_form.html.twig') }}
 
-	<a href="{{ path('article_index') }}">Retour à la liste</a>
+    <div class="pb-4 pt-4">
+    <a href="{{ path('article_index') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour Ã  la liste</a>
+    </div>
 {% endblock %}

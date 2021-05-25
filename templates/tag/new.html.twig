@@ -19,7 +19,11 @@
 	{# Admin only #}
 	{% if is_granted('ROLE_ADMIN') %}
 		{{ include('tag/_form.html.twig') }}
-		<a href="{{ path('tag_index') }}">Retour</a>
+
+    <div class="pb-4 pt-4">
+    <a href="{{ path('tag_index') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
+    </div>
+
 
 	{% else %}
 		<a>Permission refusée, contacter l'administrateur</a>
