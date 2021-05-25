@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{page.title}}{% endblock %}
+
+{% block body %}
+    <h1>{{page.title}}</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-outline-warning" href="{{ path('page_edit', {'title': page.title}) }}">Modifier la page</a>
+    {% endif %}
+    <div>{{page.content|raw}}</div>
+{% endblock %}

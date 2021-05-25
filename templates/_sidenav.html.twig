@@ -85,19 +85,13 @@
 			<div class="collapse" id="collapseHelp">
 				<div class="article-children">
 					<ul class="nav">
-						<li class="nav-item">
-							<a class="nav-link" target="_blank" href="#">Le design à l'Audap : késako?</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" target="_blank" href="#">Fonctionnement et ligne de conduite</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" target="_blank" href="#">Premiers pas sur l’outil</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" target="_blank" href="#">Comment contribuer ?</a>
-						</li>
+						{{ render(controller('App\\Controller\\PageController::listPages')) }}
 					</ul>
+					{% if is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="nav-link" href="{{path('page_index') }}">Gérer les pages</a>
+					</li>
+					{% endif %}
 				</div>
 			</div>
 			<div class="sb-sidenav-menu-heading">Ressources</div>
