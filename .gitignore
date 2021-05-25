@@ -31,4 +31,4 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /migrations/
-/public/uploads/images/article
+/public/uploads/images/
