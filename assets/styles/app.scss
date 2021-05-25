@@ -280,6 +280,18 @@ select {
 	text-transform: none;
 }
 
+a {
+	color: black;
+}
+
+a:hover {
+	color: #c8d400;
+}
+
+a:link {
+	text-decoration: none;
+}
+
 [role='button'] {
 	cursor: pointer;
 }
