@@ -37,6 +37,30 @@
 					{{article.getCreator.firstname}}
 					{{article.getCreator.lastname}}</small>
 				</div>
+
+				{# CONTRIBUTORS #}
+				<div>
+					<small class="text-muted">
+					{% if contributors|length < 4 %}
+					Contributeurs :
+						{% for contributor in contributors %}
+							{{contributor.firstname}}
+							{{contributor.lastname}}.
+						{% endfor %}
+					{% else %}
+						<button class="text-muted" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Contributeurs
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+							{% for contributor in contributors %}
+								<a class="dropdown-item" href="">{{contributor.firstname}} {{contributor.lastname}}</a>
+							{% endfor %}
+						</div>
+					{% endif %}
+					</small>
+				</div>
+				{# /CONTRIBUTORS #}
+
 				{% for category in article.categories %}
 					<a href="{{ path('category_show', {'category': category.id}) }}" class="badge badge-info">{{category.name}}</a>
 				{% endfor %}

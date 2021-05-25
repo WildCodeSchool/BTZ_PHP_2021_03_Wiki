@@ -113,7 +113,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request, MailerInterface $mailer): Response
+    public function new(Request $request, MailerInterface $mailer, ArticleRepository $articleRepository): Response
     {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
@@ -123,6 +123,14 @@ class ArticleController extends AbstractController
             $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
             $entityManager = $this->getDoctrine()->getManager();
             $currentUser = $this->getUser();
+
+            if($article->getMonthlyArticle()){
+                $monthlyArticleOld = $articleRepository->findOneBy(['monthly_article' => true]);
+                if($monthlyArticleOld){
+                    $monthlyArticleOld->setMonthlyArticle(false);
+                }
+            }
+
 
             //On hydrate l'article des données manquantes
             $article->setCreator($currentUser)
@@ -161,6 +169,7 @@ class ArticleController extends AbstractController
                 ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
 
             $mailer->send($email);
+            $this -> addFlash('success', "Votre article est créé. Il est en attente de validation.");
 
             return $this->redirectToRoute('article_index');
         }
@@ -226,6 +235,8 @@ class ArticleController extends AbstractController
                 ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
             $mailer->send($email);
 
+            $this -> addFlash('success', "Votre article est modifié. Il est en attente de validation.");
+
             return $this->redirectToRoute('article_index');
         }
 
@@ -245,11 +256,32 @@ class ArticleController extends AbstractController
         } else {
             $version = $versionRepository->find($version_id);
         }
-        $lastVersions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC'], 3);
+        // Fetch all versions for a given article
+        $versions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC']);
+        // Extract the three last versions, to display in the article page
+        $lastVersions = array_slice($versions, 0, 3);
+
+        // Fetch the contributor's id of each version and
+        // keep only the ones different to the article's author
+        $contributors = [];
+        foreach ($versions as $key => $version) {
+            if ($article->getCreator()->getId() != $version->getContributor()->getId()) {
+                $contributors[] = $version->getContributor();
+            }
+        }
+
+        //Remove duplicated entries
+        foreach ($contributors as $k=>$v) {
+            if (($kt=array_search($v, $contributors))!==false and $k!=$kt) {
+                unset($contributors[$kt]);
+            }
+        }
+
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'version' => $version,
-            'lastVersions' => $lastVersions
+            'lastVersions' => $lastVersions,
+            'contributors' => $contributors,
         ]);
     }
 
@@ -262,6 +294,8 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+
+            $this -> addFlash('erreur', "Votre article a été supprimé.");
         }
 
         return $this->redirectToRoute('article_index');
