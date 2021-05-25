@@ -68,8 +68,7 @@ class PageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('page_index');
+            return $this->redirectToRoute('page_show', ['title' => $page->getTitle()]);
         }
 
         return $this->render('page/edit.html.twig', [
