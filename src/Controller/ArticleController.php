@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/article")
@@ -43,46 +45,8 @@ class ArticleController extends AbstractController
         ]);
     }
 
-/*     public function search(AuthenticationUtils $authenticationUtils, Request $request, ArticleRepository $repo, PaginatorInterface $paginator)
-    {
-        $error = $authenticationUtils->getLastAuthenticationError();
- 
-        $lastUsername = $authenticationUtils->getLastUsername();
- 
-        $searchForm = $this->createForm(RechercheType::class);
-        $searchForm->handleRequest($request);
- 
-        $donnees = $repo->findAll();
- 
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $title = $searchForm->getData()->getTitle();
- 
-            $donnees = $repo->search($title);
- 
-            if ($donnees == null) {
-                $this->addFlash('erreur', 'Aucun article contenant ce mot clé dans le titre n\'a été trouvé, essayez en un autre.');
-            }
-        }
- 
-        // Paginate the results of the query
-        $articles = $paginator->paginate(
-        // Doctrine Query, not results
-        $donnees,
-        // Define the page parameter
-        $request->query->getInt('page', 1),
-        // Items per page
-        4
-        );
- 
-        return $this->render('article/search.html.twig', [
-            'last_username' => $lastUsername,
-            'error' => $error,
-            'articles' => $articles,
-            'searchForm' => $searchForm->createView()
-        ]);
-    } */
 
-    /**
+     /**
     * @Route("/recherche", name="search")
     */
     public function search(Request $request, ArticleRepository $articleRepository, PaginatorInterface $paginator)
@@ -112,6 +76,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function new(Request $request, MailerInterface $mailer, ArticleRepository $articleRepository): Response
     {
@@ -194,6 +159,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="article_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Article $article, MailerInterface $mailer, ArticleRepository $articleRepository): Response
     {
@@ -289,6 +255,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}", name="article_delete", requirements={"id":"\d+"}, methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Article $article): Response
     {
@@ -305,6 +272,7 @@ class ArticleController extends AbstractController
 
     /**
         * @Route("/unvalidated_articles", name="unvalidated_articles", methods={"GET"})
+        * @IsGranted("ROLE_MODERATOR")
         */
     public function unvalidatedArticles(VersionRepository $versionRepository, ArticleRepository $articleRepository, PaginatorInterface $paginator, Request $request) :Response
     {

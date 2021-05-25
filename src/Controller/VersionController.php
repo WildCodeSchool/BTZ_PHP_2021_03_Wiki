@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/version")
@@ -27,6 +28,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/new", name="version_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -60,6 +62,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/edit/{id}", name="version_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Version $version): Response
     {
@@ -80,6 +83,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/delete/{id}", name="version_delete",requirements={"id":"\d+"}, methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Version $version): Response
     {
@@ -96,6 +100,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/validation/{id}", name="version_validation" ,requirements={"id":"\d+"}, methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function manageValidation(Version $version): Response
     {
@@ -111,6 +116,7 @@ class VersionController extends AbstractController
 
     /**
     * @Route("/publish/{id}", name="version_publish", requirements={"id":"\d+"}, methods={"GET"})
+    *
     */
     public function publishVersion(Version $version): Response
     {
