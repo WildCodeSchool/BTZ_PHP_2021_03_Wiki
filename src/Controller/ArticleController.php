@@ -256,6 +256,7 @@ class ArticleController extends AbstractController
         } else {
             $version = $versionRepository->find($version_id);
         }
+
         // Fetch all versions for a given article
         $versions = $versionRepository->findBy(['article' => $article->getId()], ['modification_date' => 'DESC']);
         // Extract the three last versions, to display in the article page
@@ -264,9 +265,9 @@ class ArticleController extends AbstractController
         // Fetch the contributor's id of each version and
         // keep only the ones different to the article's author
         $contributors = [];
-        foreach ($versions as $key => $version) {
-            if ($article->getCreator()->getId() != $version->getContributor()->getId()) {
-                $contributors[] = $version->getContributor();
+        foreach ($versions as $vs) {
+            if ($article->getCreator()->getId() != $vs->getContributor()->getId()) {
+                $contributors[] = $vs->getContributor();
             }
         }
 
@@ -277,6 +278,7 @@ class ArticleController extends AbstractController
             }
         }
 
+        
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'version' => $version,
