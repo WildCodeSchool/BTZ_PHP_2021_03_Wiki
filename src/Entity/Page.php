@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
@@ -19,6 +20,7 @@ class Page
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
      */
     private $title;
 
