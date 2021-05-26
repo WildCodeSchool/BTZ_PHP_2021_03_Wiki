@@ -108,6 +108,7 @@ class VersionController extends AbstractController
             $version->setIsValidated(false);
         } else {
             $version->setIsValidated(true);
+            $this -> addFlash('success', "Votre article a été validé.");
         }
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
