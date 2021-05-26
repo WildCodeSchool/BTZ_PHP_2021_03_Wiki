@@ -100,7 +100,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/validation/{id}", name="version_validation" ,requirements={"id":"\d+"}, methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_MODERATOR")
      */
     public function manageValidation(Version $version): Response
     {
@@ -116,7 +116,7 @@ class VersionController extends AbstractController
 
     /**
     * @Route("/publish/{id}", name="version_publish", requirements={"id":"\d+"}, methods={"GET"})
-    *
+    * @IsGranted("ROLE_MODERATOR")
     */
     public function publishVersion(Version $version): Response
     {
