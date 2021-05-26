@@ -31,8 +31,8 @@
                     {% for role in user.roles %}
                         {% if role == "ROLE_USER" %}
                             Utilisateur
-                        {% elseif role == "ROLE_EDITOR" %}
-                            Editeur
+                        {% elseif role == "ROLE_MODERATOR" %}
+                            Modérateur
                         {% elseif role == "ROLE_ADMIN" %}
                             Administrateur
                         {% endif %}
