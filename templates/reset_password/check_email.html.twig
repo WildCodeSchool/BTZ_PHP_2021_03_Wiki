@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reset Mot de Passe{% endblock %}
+{% block title %}Réinitialiser Mot de Passe{% endblock %}
 
 {% block body %}
 <!-- Page Heading/Breadcrumbs-->
@@ -18,6 +18,6 @@
 Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData,
     'ResetPasswordBundle') }}.
 </p>
-<p>Si vous n'avez pas reçu d'email, veuillez vérifier votre dossier spam ou suivez le lien : <a
-        href="{{ path('app_forgot_password_request') }}">renvoyer</a>.</p>
+<p>Si vous n'avez pas reçu d'email, veuillez vérifier votre dossier spam ou cliquer ici le lien : <a
+        href="{{ path('app_forgot_password_request') }}">Renvoyer</a>.</p>
 {% endblock %}
