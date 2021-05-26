@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Mots Clés
+{% block title %}Liste des mots-clés
 {% endblock %}
 
 {% block body %}
@@ -13,7 +13,7 @@
 		<li class="breadcrumb-item active">Mots-clés</li>
 	</ol>
 
-	<h1 class="mt-4 mb-3">Liste des Mots Clés</h1>
+	<h1 class="mt-4 mb-3">Liste des mots-clés</h1>
 
 	{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('tag_new') }}" class="btn btn-success mb-3"><i class="fas fa-plus-circle mr-2"></i>Créer un mot clé</a>
@@ -39,7 +39,7 @@
 
 							{% else %}
 
-								<input type="button" class="btn btn-secondary" value="supprimer" disabled>
+								<input type="button" class="btn btn-secondary" value="Supprimer" disabled>
 							</div>
 
 						{% endif %}

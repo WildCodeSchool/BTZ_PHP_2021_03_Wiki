@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Thèmes
+{% block title %}Liste des thèmes
 {% endblock %}
 
 {% block body %}
@@ -12,7 +12,7 @@
 		<li class="breadcrumb-item active">Thèmes</li>
 	</ol>
 
-	<h1 class="mt-4 mb-3">Liste des Thèmes
+	<h1 class="mt-4 mb-3">Liste des thèmes
 	</h1>
 
 	{% if is_granted('ROLE_ADMIN') %}
@@ -39,7 +39,7 @@
 
 							{% else %}
 
-								<input type="button" class="btn btn-secondary" value="supprimer" disabled>
+								<input type="button" class="btn btn-secondary" value="Supprimer" disabled>
 							</div>
 
 						{% endif %}
