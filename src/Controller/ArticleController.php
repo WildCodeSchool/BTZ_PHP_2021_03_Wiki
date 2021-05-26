@@ -130,8 +130,8 @@ class ArticleController extends AbstractController
             $email = (new Email())
                 ->from('from@example.com')
                 ->to('to@example.com')
-                ->subject('Une nouvelle article vient d\'être publiée !')
-                ->html('<p>Une nouvelle article vient d\'être publiée sur Wiki !</p>');
+                ->subject('Un nouvel article vient d\'être publié !')
+                ->html('<p>Un nouvel article vient d\'être publié sur le Wiki !</p>');
 
             $mailer->send($email);
             $this -> addFlash('success', "Votre article est créé. Il est en attente de validation.");
@@ -201,7 +201,7 @@ class ArticleController extends AbstractController
                 ->html('<p>Un article vient d\'être modifié sur le Wiki !</p>');
             $mailer->send($email);
 
-            $this -> addFlash('success', "Votre article est modifié. Il est en attente de validation.");
+            $this -> addFlash('success', "Votre article a bien été modifié.");
 
             return $this->redirectToRoute('article_index');
         }
