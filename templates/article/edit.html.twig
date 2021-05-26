@@ -5,22 +5,35 @@
 
 {% block body %}
 
-<ol class="breadcrumb">
-	<li class="breadcrumb-item">
-		<a href="{{ path('home') }}">Accueil</a>
-	</li>
-	<li class="breadcrumb-item">
-		<a href="{{ path('article_index')}}">Articles</a>
-	</li>
-	<li class="breadcrumb-item active">Edition</li>
-</ol>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('article_index')}}">Articles</a>
+		</li>
+		<li class="breadcrumb-item active">Edition</li>
+	</ol>
 
-<h1>Édition de l'article :</h1>
+	<h1>Édition de l'article :</h1>
 
-{{ include('article/_form.html.twig', {'button_label': 'sauver'}) }}
+	{{ include('article/_form.html.twig', {'button_label': 'sauver'}) }}
 
-{{ include('article/_delete_form.html.twig') }}
-    <div class="pb-4 pt-4">
-    <a href="{{ path('article_index') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
-    </div>
+	{{ include('article/_delete_form.html.twig') }}
+	<div class="pb-4 pt-4">
+		<a href="{{ path('article_index') }}">
+			<i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
+	</div>
 {% endblock %}
+
+{# {% block stylesheets %}
+	{{parent()}}
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+{% endblock %}
+{% block javascripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+	<script>
+		$('select').select2();
+	</script>
+{% endblock %} #}
