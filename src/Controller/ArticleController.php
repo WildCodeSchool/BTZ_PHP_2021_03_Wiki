@@ -255,7 +255,7 @@ class ArticleController extends AbstractController
 
     /**
      * @Route("/{id}", name="article_delete", requirements={"id":"\d+"}, methods={"DELETE"})
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_MODERATOR")
      */
     public function delete(Request $request, Article $article): Response
     {
