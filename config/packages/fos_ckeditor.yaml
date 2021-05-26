@@ -6,4 +6,9 @@ twig:
 fos_ck_editor:
   configs:
     my_config:
-    language: [fr]
+      toolbar:
+        - { name: "styles", 
+            items: ['Bold', 'Italic', 'Underline', 'Strike', 'Blockquote', '-', 'Link', 'Unlink', 'Anchor', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Image', 'Table', '-', 'Styles', 'Format','Font','FontSize', '-', 'TextColor', 'BGColor', 'Source'] }es", items: ['Bold', 'Italic', 'Underline', 'Strike', 'Blockquote', '-', 'Link', '-', 'RemoveFormat', '-', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Image', 'Table', '-', 'Styles', 'Format','Font','FontSize', '-', 'TextColor', 'BGColor', 'Source'] }
+      language: fr
+      filebrowserBrowseRoute: elfinder
+      filebrowserBrowseRouteParameters: []

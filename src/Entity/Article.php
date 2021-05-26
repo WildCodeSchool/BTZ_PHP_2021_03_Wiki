@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
@@ -42,6 +43,9 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max="255",
+     * maxMessage="Le mot-clé saisi {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères")
      */
     private $title;
 
@@ -100,6 +104,11 @@ class Article
      * @ORM\Column(type="integer", nullable=true)
      */
     private $currentVersion;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $monthly_article;
 
     public function __construct()
     {
@@ -353,6 +362,18 @@ class Article
     public function setUpdatedAt(\DateTime $updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getMonthlyArticle(): ?bool
+    {
+        return $this->monthly_article;
+    }
+
+    public function setMonthlyArticle(?bool $monthly_article): self
+    {
+        $this->monthly_article = $monthly_article;
 
         return $this;
     }

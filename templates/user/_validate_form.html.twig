@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('user_validate', {'id': user.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir valider cet utilisateur ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ user.id) }}">
+    <button class="btn btn-primary mr-3">Valider</button>
+</form>

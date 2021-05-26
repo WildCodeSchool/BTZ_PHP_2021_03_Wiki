@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Page non trouvée{% endblock %}
+
+{% block body %}
+<img src="{{ asset('build/images/stationery-stack.svg') }}" alt="sheets-pile">
+<h1 class="p-3 mt-3">Oups...</h1>
+<h5 class="p-3">Il semblerait que la page que vous recherchez n'a pas été trouvée.</h5>
+	<div class="p-3">
+	    <a href="{{ path('home') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour à l'accueil</a>
+    </div>
+{% endblock %}

@@ -1,53 +1,55 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}Validation Utilisateurs{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
-
+<!-- Page Heading/Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Validation utilisateurs</li>
+</ol>
+    <h1>Liste des utilisateurs en attente de validation</h1>
+    {# <a class="btn btn-success mb-3" href="{{ path('user_new') }}">Créer un utilisateur</a> #}
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Email</th>
-                <th>Roles</th>
-               {# <th>Password</th>#}
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>CityAgency</th>
-                <th>status</th>
-                {# <th>actions</th> #}
+                <th>Rôle</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Structure</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                {#<td>{{ user.password }}</td>#}
+           <tr>
+                <td><a href="{{ path('user_show', {'id': user.id}) }}">{{ user.email }}</a></td>
+                <td>
+                    {% for role in user.roles %}
+                        {% if role == "ROLE_USER" %}
+                            Utilisateur
+                        {% elseif role == "ROLE_MODERATEUR" %}
+                            Moderateur
+                        {% elseif role == "ROLE_ADMIN" %}
+                            Administrateur
+                        {% endif %}
+                    {% endfor %}
+                </td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
-                <td>{{ user.cityAgency }}</td>
-                {% if user.validated is same as(true) %}
-                <td>{{ "validé" }}</td>
-                {% else %}
-                <td>{{ "en attente" }}</td>                                
-                {% endif %}
-                
-             
-                <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                <td>{{ user.structure }}</td>
+                <td class="d-flex justify-content-around">
+					{{ include('user/_validate_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">Il n'y a pas d'utilisateur en attente de validation</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}

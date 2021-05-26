@@ -20,12 +20,15 @@
 	{% if is_granted('ROLE_ADMIN') %}
 
 		{{ include('category/_form.html.twig', {'button_label': 'sauver'}) }}
-		<a href="{{ path('category_index') }}">retour</a>
+
+	<div class="pb-4 pt-4">
+    <a href="{{ path('category_index') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
+    </div>
 
 		{# {{ include('category/_delete_form.html.twig') }} #}
 
 	{% else %}
-		<a>Permission refusée, contacter l'administrateur</a>
+		<a>Permission refusée, merci de contacter l'administrateur</a>
 	{% endif %}
 
 {% endblock %}

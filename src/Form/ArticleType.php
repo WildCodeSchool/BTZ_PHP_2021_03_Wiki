@@ -46,8 +46,14 @@ class ArticleType extends AbstractType
         $builder
             ->add('title', TextType::class , ['label' => 'Nom'])
             ->add('description', TextareaType::class,['label' => 'Description'])
-            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'],)
-            ->add('imageFile', VichImageType::class, ['required' => false, 'label' => 'Image'])
+            ->add('monthly_article', null, ['label' => 'Article du mois'])
+            ->add('content', CKEditorType::class,  ['mapped' => false, 'data' => $contentVersion , 'label' => 'Version en cours'])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false, 
+                'label' => 'Image',
+                'download_uri' => false,
+                'allow_delete' => false,
+                ])
             ->add('tags', EntityType::class, [
                 'class' => Tag::class, 
                 'label' => 'Mots clés',
@@ -63,10 +69,7 @@ class ArticleType extends AbstractType
                 'multiple' => true,
                 'expanded' => false,
                 'by_reference' => false,
-            ])
-            ->add('content', CKEditorType::class,  ['mapped' => false])
-
-            ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

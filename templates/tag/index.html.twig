@@ -16,7 +16,7 @@
 	<h1 class="mt-4 mb-3">Liste des Mots Clés</h1>
 
 	{% if is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('tag_new') }}" class="btn btn-success mb-3">créer un mot clé</a>
+		<a href="{{ path('tag_new') }}" class="btn btn-success mb-3"><i class="fas fa-plus-circle mr-2"></i>Créer un mot clé</a>
 	{% endif %}
 
 	<div class="row">
@@ -31,7 +31,7 @@
 					{% if is_granted('ROLE_ADMIN') %}
 						<div class="card-body">
 							<div class="d-flex justify-content-around">
-								<a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-primary">éditer</a>
+								<a href="{{ path('tag_edit', {'id': tag.id}) }}" class="btn btn-warning"><i class="fas fa-edit mr-2"></i>Éditer</a>
 
 								{% if tag.articles is empty %}
 									<span>{{ include('tag/_delete_form.html.twig') }}</span>

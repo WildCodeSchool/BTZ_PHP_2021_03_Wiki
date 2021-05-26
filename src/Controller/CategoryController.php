@@ -8,15 +8,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
+use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
+// Nous appelons le bundle KNP Paginator
 /**
  * @Route("/category")
+ *
  */
 class CategoryController extends AbstractController
 {
     /**
      * @Route("/new", name="category_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function newCategory(Request $request): Response
     {
@@ -70,6 +74,7 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="category_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function editCategory(Request $request, Category $category): Response
     {
@@ -90,6 +95,7 @@ class CategoryController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="category_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function deleteCategory(Request $request, Category $category): Response
     {

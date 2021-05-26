@@ -1,23 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Enregistrement {% endblock %}
 
 {% block body %}
-    {% for flashError in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
-    {% endfor %}
+{% for flashError in app.flashes('verify_email_error') %}
+<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="{{ path('home') }}">Accueil</a>
+    </li>
+    <li class="breadcrumb-item active">Enregistrement</li>
+</ol>
 
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstname) }}
-         {{ form_row(registrationForm.lastname) }}
-          {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+<h1>Formulaire d'enregistrement</h1>
+<p>
+    Merci de compléter ce formulaire. </br>
+    Nous vous enverrons un email avec un lien de connexion pour vous enregistrer dans le Wiki.
+</p>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{{ form_start(registrationForm) }}
+{{ form_row(registrationForm.lastname) }}
+{{ form_row(registrationForm.firstname) }}
+
+{{ form_row(registrationForm.email) }}
+{{ form_row(registrationForm.plainPassword) }}
+{{ form_row(registrationForm.agreeTerms) }}
+
+<button type="submit" class="btn btn-primary">soumettre</button>
+{{ form_end(registrationForm) }}
+
+    <div class="pb-4 pt-4">
+    <a href="{{ path('home') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
+    </div>
 {% endblock %}

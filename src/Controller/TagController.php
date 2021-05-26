@@ -10,13 +10,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Knp\Component\Pager\PaginatorInterface; // Nous appelons le bundle KNP Paginator
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/tag")
+ * 
  */
 class TagController extends AbstractController
 {
         /**
+         * @IsGranted("ROLE_ADMIN")
      * @Route("/new", name="tag_new", methods={"GET","POST"})
      */
     public function newTag(Request $request): Response
@@ -60,6 +63,7 @@ class TagController extends AbstractController
 
 /**
      * @Route("/{tag}", name="tag_show", methods={"GET"})
+     * 
      */
     public function show(Tag $tag): Response
     {
@@ -70,6 +74,7 @@ class TagController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function editTag(Request $request, Tag $tag): Response
     {
@@ -89,6 +94,7 @@ class TagController extends AbstractController
 
     /**
      * @Route("/{id}/delete", name="tag_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function deleteTag(Request $request, Tag $tag): Response
     {

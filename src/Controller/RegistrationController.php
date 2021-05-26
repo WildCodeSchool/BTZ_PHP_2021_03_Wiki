@@ -42,13 +42,15 @@ class RegistrationController extends AbstractController
 
             ->to('to@example.com')
 
-            ->subject('Un utilisateur a crée son compte!')
+            ->subject('Un utilisateur a créé son compte !')
 
-            ->html('<p>Un utilisateur a crée son compte</p>');
-
+            ->html('<p>Un utilisateur a créé son compte, veuillez le valider.
+             </p>');
 
              $mailer->send($email);
-            // do anything else you need here, like send an email
+
+            // generates a flash message of type success to confirm the request
+             $this -> addFlash('success', "Votre demande d'inscription a bien été prise en compte !");
 
             return $this->redirectToRoute('home');
         }

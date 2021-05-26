@@ -26,7 +26,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastname);
-            $user->setCityAgency($faker->city);
+            $user->setStructure($faker->city);
             $user->setEmail('user'.$i.'@wiki.com');
             $user->setRoles(['ROLE_USER']);
             $user->setPassword($this->passwordEncoder->encodePassword(
@@ -42,7 +42,7 @@ class UserFixtures extends Fixture
         $moderator = new User();
         $moderator->setFirstname('Wild');
         $moderator->setLastname('Moderator');
-        $moderator->setCityAgency($faker->city);
+        $moderator->setStructure($faker->city);
         $moderator->setEmail('moderator@wiki.com');
         $moderator->setRoles(['ROLE_MODERATOR']);
         $moderator->setPassword($this->passwordEncoder->encodePassword(
@@ -57,7 +57,7 @@ class UserFixtures extends Fixture
         $admin = new User();
         $admin->setFirstname('SuperWild');
         $admin->setLastname('Admin');
-        $admin->setCityAgency($faker->city);
+        $admin->setStructure($faker->city);
         $admin->setEmail('admin@wiki.com');
         $admin->setRoles(['ROLE_ADMIN']);
         $admin->setPassword($this->passwordEncoder->encodePassword(

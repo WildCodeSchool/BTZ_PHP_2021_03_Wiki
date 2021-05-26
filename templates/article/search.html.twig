@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Resultat de recherche
+{% endblock %}
+
+{% block body %}
+	<!-- Page Heading/Breadcrumbs-->
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item active">Articles</li>
+	</ol>
+
+	
+	<div class="row">
+		{% for article in articles %}
+			<div class="col-lg-4 col-sm-6 mb-4">
+				<div class="card h-100">
+					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
+					<div class="card-body pb-5">
+						<h4 class="card-title">
+							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
+						</h4>
+						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
+						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div>
+				<h2>Aucun article ne correspond à votre recherche </h2>
+			</div>
+		{% endfor %}
+	</div>
+
+	<!-- Pagination-->
+	<ul class="pagination justify-content-center">
+		{{ knp_pagination_render(articles) }}
+	</ul>
+{% endblock %}

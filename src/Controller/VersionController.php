@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/version")
@@ -27,6 +28,7 @@ class VersionController extends AbstractController
 
     /**
      * @Route("/new", name="version_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function new(Request $request): Response
     {
@@ -49,7 +51,7 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="version_show", methods={"GET"})
+     * @Route("/{id}", name="version_show", requirements={"id":"\d+"}, methods={"GET"})
      */
     public function show(Version $version): Response
     {
@@ -59,7 +61,8 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="version_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="version_edit", requirements={"id":"\d+"}, methods={"GET","POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function edit(Request $request, Version $version): Response
     {
@@ -79,16 +82,48 @@ class VersionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="version_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="version_delete",requirements={"id":"\d+"}, methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Version $version): Response
     {
+        $article = $version->getArticle();
         if ($this->isCsrfTokenValid('delete'.$version->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($version);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('version_index');
+
+        return $this->redirectToRoute('article_versions', ['id'=>$article->getId()]);
+    }
+
+    /**
+     * @Route("/validation/{id}", name="version_validation" ,requirements={"id":"\d+"}, methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function manageValidation(Version $version): Response
+    {
+        if ($version->getIsValidated()) {
+            $version->setIsValidated(false);
+        } else {
+            $version->setIsValidated(true);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return $this->redirectToRoute('unvalidated_articles');
+    }
+
+    /**
+    * @Route("/publish/{id}", name="version_publish", requirements={"id":"\d+"}, methods={"GET"})
+    *
+    */
+    public function publishVersion(Version $version): Response
+    {
+        $article = $version->getArticle();
+        $article->setCurrentVersion($version->getId());
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+        return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
     }
 }
