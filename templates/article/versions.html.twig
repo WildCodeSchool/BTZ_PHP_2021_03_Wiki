@@ -30,9 +30,12 @@
 				{% if article.currentVersion == version.id %}
 					<span class="small">(Version actuelle publiée).</span>
 				{% else %}
+				{% if is_granted('ROLE_MODERATOR') %}
 				{% include 'version/_delete_form.html.twig' %}
+				{% endif %}
 				{% endif %}
 			</li>
 		{% endfor %}
 	</ul>
+
 </div>{% endblock %}
