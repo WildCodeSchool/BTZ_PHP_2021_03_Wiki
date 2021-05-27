@@ -24,7 +24,11 @@
 			</div>
 		</div>
 	{% endif %}
-	{% if lastArticles is not null %}
+	{% if lastArticles is empty %}
+	<div>
+		<h2>Il n'y a pas d'article</td>
+	</div>
+	{% else %}
 	<h2 class="mt-4 mb-3">
 		Les derniers articles
 	</h2>
@@ -62,10 +66,6 @@
 	</div>
 	<div class="mx-auto" style="width: 250px;">
 		<a class="btn btn-primary m-3" href="{{path('article_index')}}">Tous les articles</a>
-	</div>
-	{% else %}
-	<div>
-		<h2>Il n'y a pas d'article</td>
 	</div>
 	{% endif %}
 {% endblock %}
