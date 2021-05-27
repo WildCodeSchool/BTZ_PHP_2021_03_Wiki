@@ -1,60 +1,74 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" type="image/x-icon" alt="logo AUDAP" href="{{ asset('build/images/favicon.ico') }}" />
-	<title>
-		{% block title %}Wiki AUDAP
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="icon" type="image/x-icon" alt="logo AUDAP" href="{{ asset('build/images/favicon.ico') }}"/>
+		<title>
+			{% block title %}Wiki AUDAP
+			{% endblock %}
+		</title>
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-	</title>
-	{% block stylesheets %}
-	{{ encore_entry_link_tags('app') }}
-	{% endblock %}
-</head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+	</head>
 
-<body class="sb-nav-fixed">
-	{% include "_topnav.html.twig" %}
-	<div id="layoutSidenav">
-		<div id="layoutSidenav_nav">
-			{% include "_sidenav.html.twig" %}
-		</div>
-		<div id="layoutSidenav_content">
-
-			{# Displays once any message generated in the current session as flash messages #}
-			{% for message in app.flashes('success') %}
-			<div class="alert alert-success">{{message}}</div>
-			{% endfor %}
-			{% for message in app.flashes('erreur') %}
-			<div class="alert alert-danger">{{message}}</div>
-			{% endfor %}
-
-			<main>
-				<section class="py-5">
-					<div class="container-fluid">
-						<!-- Page Content-->
-						{% block body %}{% endblock %}
-					</div>
-		</div>
-		</main>
-	</div>
-	</div>
-	<!-- Footer-->
-	<footer class="py-4 bg-dark">
-		<div class="container">
-			<div class="d-flex align-items-center justify-content-around small">
-				<div class="text-muted">Copyright &copy; Audap Wiki 2021</div>
-				<div>
-					<a href="#">Privacy Policy</a>
-					<a href="#">Terms &amp; Conditions</a>
+	<body class="sb-nav-fixed">
+		{% include "_topnav.html.twig" %}
+		<div id="layoutSidenav">
+			<div id="layoutSidenav_nav">
+				{% include "_sidenav.html.twig" %}
+			</div>
+			<div
+				id="layoutSidenav_content">
+				{# Displays once any message generated in the current session as flash messages #}
+				<div class="container-fluid pt-3">
+					{% for message in app.flashes('success') %}
+						<div class="alert alert-success">{{message}}</div>
+					{% endfor %}
+					{% for message in app.flashes('erreur') %}
+						<div class="alert alert-danger">{{message}}</div>
+					{% endfor %}
 				</div>
+				<main>
+					<section class="py-5">
+						<div
+							class="container-fluid">
+							<!-- Page Content-->
+							{% block body %}{% endblock %}
+						</div>
+					</div>
+				</main>
 			</div>
 		</div>
-	</footer>
-	{% block javascripts %}
-	{{ encore_entry_script_tags('app') }}
-	{% endblock %}
-</body>
+		<!-- Footer-->
+		<footer class="py-4 bg-dark">
+			<div class="container">
+				<div class="d-flex align-items-center justify-content-around small">
+					<div class="text-muted">Copyright &copy; Audap Wiki 2021</div>
+					<div>
+						<a href="#">Privacy Policy</a>
+						<a href="#">Terms &amp; Conditions</a>
+					</div>
+				</div>
+			</div>
+		</footer>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+		<script>
+			$('select').select2();
+		</script>
+		<script type="application/javascript">
+			$('input[type="file"]').change(function (e) {
+				var fileName = e.target.files[0].name;
+				$('.custom-file-label').html(fileName);
+			});
+		</script>
+	</body>
 
 </html>

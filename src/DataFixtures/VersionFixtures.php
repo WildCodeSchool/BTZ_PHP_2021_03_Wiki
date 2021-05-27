@@ -13,7 +13,7 @@ class VersionFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $counter = 0;
-        for ($i=0; $i < 20; $i++) {
+        for ($i=1; $i < 20; $i++) {
             $article = $this->getReference('article_' . $i);
             for ($j=0; $j < 3; $j++) {
                 $faker = Faker\Factory::create('fr_FR');

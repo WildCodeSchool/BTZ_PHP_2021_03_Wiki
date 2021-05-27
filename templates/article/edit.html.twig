@@ -5,22 +5,25 @@
 
 {% block body %}
 
-<ol class="breadcrumb">
-	<li class="breadcrumb-item">
-		<a href="{{ path('home') }}">Accueil</a>
-	</li>
-	<li class="breadcrumb-item">
-		<a href="{{ path('article_index')}}">Articles</a>
-	</li>
-	<li class="breadcrumb-item active">Edition</li>
-</ol>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">
+			<a href="{{ path('home') }}">Accueil</a>
+		</li>
+		<li class="breadcrumb-item">
+			<a href="{{ path('article_index')}}">Articles</a>
+		</li>
+		<li class="breadcrumb-item active">Edition</li>
+	</ol>
 
-<h1>Édition de l'article :</h1>
+	<h1>Édition de l'article :</h1>
+
 
 {{ include('article/_form.html.twig', {'button_label': 'Sauver'}) }}
 
-{{ include('article/_delete_form.html.twig') }}
-    <div class="pb-4 pt-4">
-    <a href="{{ path('article_index') }}"><i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
-    </div>
+
+	{{ include('article/_delete_form.html.twig') }}
+	<div class="pb-4 pt-4">
+		<a href="{{ path('article_index') }}">
+			<i class="fas fa-arrow-circle-left mr-2"></i>Retour</a>
+	</div>
 {% endblock %}
