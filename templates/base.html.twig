@@ -24,14 +24,16 @@
 			<div
 				id="layoutSidenav_content">
 				{# Displays once any message generated in the current session as flash messages #}
-				<div class="container-fluid pt-3">
 					{% for message in app.flashes('success') %}
+					<div class="container-fluid pt-3">
 						<div class="alert alert-success">{{message}}</div>
+					</div>
 					{% endfor %}
 					{% for message in app.flashes('erreur') %}
+					<div class="container-fluid pt-3">
 						<div class="alert alert-danger">{{message}}</div>
+					</div>
 					{% endfor %}
-				</div>
 				<main>
 					<section class="py-5">
 						<div
@@ -70,5 +72,4 @@
 			});
 		</script>
 	</body>
-
 </html>
