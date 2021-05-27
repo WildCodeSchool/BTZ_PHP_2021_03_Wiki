@@ -9,14 +9,28 @@
 		<li class="breadcrumb-item active">Accueil</li>
 	</ol>
 	{% if monthlyArticle is not null %}
-		<div class="card mb-3" style="max-width: 540px;">
+		<div class="card mb-3 d-flex justify-content-center">
 			<div class="row no-gutters">
 				<div class="col-md-4">
 					<img src="{{ vich_uploader_asset(monthlyArticle, 'imageFile') }}" class="card-img"/>
 				</div>
 				<div class="col-md-8">
 					<div class="card-body">
+					<h4><span class="badge badge-success">Article du mois</span></h4>
 						<h5 class="card-title">{{monthlyArticle.title}}</h5>
+						<small>{{monthlyArticle.getCreator.firstname}}
+						{{monthlyArticle.getCreator.lastname}}</small>
+						{% for category in monthlyArticle.categories %}
+						<a href="{{ path('category_show', {'category': category.id}) }}"
+							class="badge badge-info">{{category.name}}</a>
+						{% endfor %}
+						{% for tag in monthlyArticle.tags %}
+						<a href="{{ path('tag_show', {'tag': tag.id}) }}" class="badge badge-dark">{{tag.name}}</a>
+						{% endfor %}
+						{% if is_granted('ROLE_MODERATOR') %}
+						<a class="btn btn-warning position-absolute" style="bottom: 20px;right: 170px;"
+							href="{{ path('article_edit', {'id': monthlyArticle.id}) }}">Modifier</a>
+						{% endif %}
 						<p class="card-text">{{monthlyArticle.description}}</p>
 						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': monthlyArticle.id}) }}">Lire la suite...</a>
 					</div>
@@ -24,6 +38,11 @@
 			</div>
 		</div>
 	{% endif %}
+	{% if lastArticles is empty %}
+	<div>
+		<h2>Il n'y a pas d'article</td>
+	</div>
+	{% else %}
 	<h2 class="mt-4 mb-3">
 		Les derniers articles
 	</h2>
@@ -31,23 +50,36 @@
 		{% for article in lastArticles %}
 			<div class="col-lg-4 col-sm-6 mb-4">
 				<div class="card h-100">
-					<a href="{{ path('article_show', {'id': article.id}) }}"><img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" alt=" "/></a>
+					<a href="{{ path('article_show', {'id': article.id}) }}">
+						<img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" width="50px" />
+					</a>
 					<div class="card-body pb-5">
 						<h4 class="card-title">
 							<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title|capitalize }}</a>
 						</h4>
-						<p class="card-text pb-3">{{ article.description|slice(0,100) }}</p>
-						<a class="btn btn-primary position-absolute" style="bottom: 20px;right: 20px;" href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
+						<small>{{article.getCreator.firstname}}
+							{{article.getCreator.lastname}}</small>
+						{% for category in article.categories %}
+						<a href="{{ path('category_show', {'category': category.id}) }}"
+							class="badge badge-info">{{category.name}}</a>
+						{% endfor %}
+						{% for tag in article.tags %}
+						<a href="{{ path('tag_show', {'tag': tag.id}) }}" class="badge badge-dark">{{tag.name}}</a>
+						{% endfor %}
+						<p class="card-text pb-3 pt-3">{{ article.description|slice(0,100) }}</p>
+						{% if app.user %}
+						<a class="btn btn-warning position-absolute btn-sm" style="bottom: 20px;left: 20px;"
+							href="{{ path('article_edit', {'id': article.id}) }}">Modifier</a>
+						{% endif %}
+						<a class="btn btn-primary position-absolute btn-sm" style="bottom: 20px;right: 20px;"
+							href="{{ path('article_show', {'id': article.id}) }}">Lire la suite...</a>
 					</div>
 				</div>
-			</div>
-		{% else %}
-			<div>
-				<h2>Il n'y a pas d'article</td>
 			</div>
 		{% endfor %}
 	</div>
 	<div class="mx-auto" style="width: 250px;">
 		<a class="btn btn-primary m-3" href="{{path('article_index')}}">Tous les articles</a>
 	</div>
+	{% endif %}
 {% endblock %}
